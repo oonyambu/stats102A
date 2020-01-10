@@ -1,9 +1,0 @@
-"ID","grade","remark"
-"987",15,"gcd 10
-GCD 5"
-"jhg.R",15,"gcd 10
-GCD 5"
-"R.R",0,"gcd 0. You are missing the gcd function
-GCD 0 Your GCD could not work on some data like 24, 60, 100"
-"uyy7",0,"Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found
-Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found"

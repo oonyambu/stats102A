@@ -66,7 +66,13 @@ agg_fun <- function(x){
 
 file_write <- function(x, fl){
   if(is.null(fl)) return(x)
-  write.csv(x, if(nchar(fl)>0) fl else "result.csv", row.names = FALSE)
+  if(nchar(fl)>0)
+    write.csv(x,fl , row.names = FALSE)
+  else {
+    fl <- paste0(getwd(),"/result.csv")
+    write.csv(x, fl, row.names = FALSE)
+    cat("The results are in", fl)
+  }
 }
 
 

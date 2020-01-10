@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "2436795727",
     "id" : "161D82D5",
-    "lastKnownWriteTime" : 1578687950,
-    "last_content_update" : 1578687950998,
+    "lastKnownWriteTime" : 1578699191,
+    "last_content_update" : 1578699191358,
     "path" : "D:/Work/school/102A/stats102A/tests/testthat/test-all.R",
     "project_path" : "tests/testthat/test-all.R",
     "properties" : {
-        "cursorPosition" : "17,1",
+        "cursorPosition" : "18,1",
         "scrollLine" : "0"
     },
     "relative_order" : 9,

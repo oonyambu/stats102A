@@ -6,12 +6,10 @@ grade_Rscripts <- function(student_dir,teacher_file,
   student_files <- list.files(student_dir,"\\.R$",ignore.case = TRUE,
                               recursive = TRUE,full.names = TRUE)
   functions_to_test <- names(function_test_data)
-  nm <- names(weight)
-  weight[setdiff(functions_to_test,nm)] <-
-           if(length(nm)==1) weight else 1
+  weight <- set_name(functions_to_test,weight)
   .finalize <- function(f){
     re <-lapply(student_files,.compare,f,
-                function_test_data[[f]], weight, keep_par_names)
+                function_test_data[[f]], weight[f], keep_par_names)
    do.call(rbind.data.frame, c(stringsAsFactors = FALSE, re))
   }
   result <- do.call(rbind.data.frame,

@@ -1,6 +1,7 @@
 
-
 export("convt2list")
 export("grade_Rscripts")
 export("test_function")
 importFrom("methods", "formalArgs", "is")
+importFrom("stats", "aggregate")
+importFrom("utils", "type.convert", "write.csv")

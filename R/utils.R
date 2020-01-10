@@ -41,14 +41,15 @@
     n <- .comp(test_data[[1]],stud_fun,teach_fun)
     if(is.list(n)) return(c(ID = studentID,n))
     val <- c(n,if(length(test_data)>1) sapply(test_data[-1], .comp,stud_fun, teach_fun))
-    remark = " "
     fin_val <- mean(val) * weight
+    remark = paste(fun_name, fin_val)
     if(any(!val)) {
       not_work <- unlist(sample(test_data[!val],1))
       remark <- paste(fun_name, fin_val, "Your", fun_name,
-                      "could not work on some data like",toString(not_work))
+                      "could not work on some data like",
+                      toString(not_work))
     }
-    list(ID = studentID, grade = fin_val ,remark = remark)
+    list(ID = studentID, grade = fin_val , remark = remark)
   }
 }
 
@@ -60,10 +61,33 @@
 agg_fun <- function(x){
   x <- type.convert(x,as.is = TRUE)
   if (is.numeric(x)) sum(x)
-  else paste0(trimws(x),collapse = "\n")
+  else paste0(trimws(x),collapse = "; ")
 }
 
 file_write <- function(x, fl){
   if(is.null(fl)) return(x)
-  write.csv(x, if(length(fl)>0) fl else "result.csv", row.names = FALSE)
+  write.csv(x, if(nchar(fl)>0) fl else "result.csv", row.names = FALSE)
+}
+
+
+
+set_name <- function(funs,weights){
+  len_f <- length(funs)
+  len_w <- length(weights)
+  nm <- names(weights)
+  if(len_w == 1){
+    if(is.null(nm)) weights <- `names<-`(rep(weights,len_f),funs)
+    else weights[setdiff(funs,nm)] <- 1
+  }
+  else {
+    if(is.null(nm)){
+      if(len_f == len_w)names(weights) <- funs
+      else stop("unequal length of weights and number of functions")
+    }
+    else{
+      if (any(nm=="")) weights[setdiff(funs, nm)] <- weights[nm==""]
+      else weights[setdiff(funs, nm)] <- 1
+    }
+  }
+  weights[names(weights)!=""]
 }

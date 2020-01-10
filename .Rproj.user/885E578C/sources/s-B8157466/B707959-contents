@@ -16,7 +16,7 @@
     student == correct
   }
 }
-.compare <- function(student_file, fun_name, test_data,weight,keep_par_names){
+.compare <- function(student_file, fun_name, test_data, weight,keep_par_names){
   stud_env <- new.env()
   test_data <- convt2list(test_data,keep_par_names)
   studentID <- sub("\\D+$","",s_base <- basename(student_file))
@@ -42,10 +42,10 @@
     if(is.list(n)) return(c(ID = studentID,n))
     val <- c(n,if(length(test_data)>1) sapply(test_data[-1], .comp,stud_fun, teach_fun))
     remark = " "
-    fin_val <- mean(val)
+    fin_val <- mean(val) * weight
     if(any(!val)) {
       not_work <- unlist(sample(test_data[!val],1))
-      remark <- paste(fun_name,fin_val,"Your",fun_name,
+      remark <- paste(fun_name, fin_val, "Your", fun_name,
                       "could not work on some data like",toString(not_work))
     }
     list(ID = studentID, grade = fin_val ,remark = remark)
@@ -65,6 +65,5 @@ agg_fun <- function(x){
 
 file_write <- function(x, fl){
   if(is.null(fl)) return(x)
-  if(fl) write.csv(x,fl,row.names = FALSE)
-  else write.csv(x, "result.csv")
+  write.csv(x, if(length(fl)>0) fl else "result.csv", row.names = FALSE)
 }

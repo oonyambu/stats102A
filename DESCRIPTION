@@ -2,7 +2,7 @@ Package: stats102A
 Type: Package
 Title: Grade stats 102A (UCLA)
 Version: 0.1.0
-Author: Onyambu 
+Author: Onyambu Onyancha
 Maintainer: The package maintainer <oonyambu@gmail.com>
 Description:  Compare Students' functions output to the expected output
 Imports: methods

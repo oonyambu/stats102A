@@ -63,7 +63,7 @@ agg_fun <- function(x){
   else paste0(trimws(x),collapse = "\n")
 }
 
-file_write <- function(x, fl = NULL){
+file_write <- function(x, fl){
   if(is.null(fl)) return(x)
   if(fl) write.csv(x,fl,row.names = FALSE)
   else write.csv(x, "result.csv")

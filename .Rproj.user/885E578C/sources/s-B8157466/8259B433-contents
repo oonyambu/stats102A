@@ -4,7 +4,7 @@
 \title{Grading the Rscripts to produce a dataframe}
 \usage{
 grade_Rscripts(student_dir, teacher_file, function_test_data,
-                weight = 1,keep_par_names = FALSE)
+                weight = 1,keep_par_names = FALSE, file_name = "")
 }
 \arguments{
 \item{student_dir}{ The directory that containts the students folders}
@@ -16,6 +16,8 @@ grade_Rscripts(student_dir, teacher_file, function_test_data,
 \item{weight}{A vector containing the maximum points for each function tested. Defaults to 1 for any function whose weight is not given}
 
 \item{keep_par_names}{ A logical parameter that is used to determine whether the parameter names in the test data and the functions are the same. Default is FALSE}
+
+\item{file_name}{The file to write the results to. if not given, the results will be written to a file in the working directory by the name results.csv. If NULL, the function will return the result dataframe instead}
 }
 
 \value{

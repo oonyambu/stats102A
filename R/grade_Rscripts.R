@@ -16,11 +16,7 @@ grade_Rscripts <- function(student_dir,teacher_file,
           c(stringsAsFactors = FALSE,
             lapply(functions_to_test,.finalize)))
   aggregate(.~ID,result,agg_fun)
-  cbind(func = f,do.call(rbind.data.frame, c(stringsAsFactors = FALSE, re)))
   }
-  do.call(rbind.data.frame, c(stringsAsFactors = FALSE, lapply(functions_to_test, .finalize)))
-}
-
 
 
 

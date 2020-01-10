@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1578682165431.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "479590468",
+    "id" : "161D82D5",
+    "lastKnownWriteTime" : 1578687950,
+    "last_content_update" : 1578687950998,
+    "path" : "D:/Work/school/102A/stats102A/tests/testthat/test-all.R",
+    "project_path" : "tests/testthat/test-all.R",
+    "properties" : {
+        "cursorPosition" : "17,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

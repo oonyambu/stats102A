@@ -1,0 +1,11 @@
+"func","ID","grade","remark"
+"gcd","987",1,""
+"gcd","jhg.R",1,""
+"gcd","R.R",0,"You are missing the gcd function"
+"gcd","uyy7",0,"Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found
+"
+"GCD","987",1,""
+"GCD","jhg.R",1,""
+"GCD","R.R",0,"Your GCD could not work on some data like 1071, 452, 21"
+"GCD","uyy7",0,"Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found
+"

@@ -1,0 +1,19 @@
+tst <- data.frame(matrix(c(1071,462,
+                             18678,120,
+                             24,60,
+                             30,24,
+                             98,99,
+                             0,10,
+                             33,121,
+                             432,1452,
+                             462,1452,
+                             -3,5),ncol = 2,byrow=T))
+
+
+
+tst <- list(gcd = convt2list(tst),
+            GCD = convt2list(cbind(tst,c(42,30,100,36,77,13,69,18,54,4))))
+
+
+#grade_Rscripts("tests/testthat/students/","tests/testthat/987654321_stat102a_test.R",tst)
+grade_Rscripts("students/","987654321_stat102a_test.R",tst)

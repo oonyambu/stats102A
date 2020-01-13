@@ -1,0 +1,168 @@
+---
+title: "hw1"
+author: "onyambu"
+date: "October 1, 2019"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+#QUESTION 1
+
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+library(knitr)
+library(igraph)
+library(degreenet)
+```
+
+## Part A
+
+```{r,echo=FALSE}
+a='   Respondent   Gender   Friend1      Friend2     Friend3    Friend4
+1   Jacob Male Michael   Emily              
+2   Emily Female Madison Abigail   Jacob      
+3 Michael Male  Joshua   Jacob Matthew Emily
+4    Emma Female  Emily                      
+5  Joshua Male  Jacob Michael              
+6 Madison Female  Emily Abigail              
+7 Matthew Male  Jacob Michael              
+8 Abigail Female Madison   Emily   '
+df = read.table(text=a,h=T,fill=T,stringsAsFactors = F,na.strings ='')
+un = nrow(df)
+options(knitr.kable.NA = '')
+kable(df,'pandoc')
+```
+
+### Part i
+
+This is a directed network
+
+### Part ii
+
+There are `r (un-1)*un` possible ties in this network
+
+### Part iii
+
+```{r,echo = FALSE}
+df1 = na.omit(reshape(df,3:ncol(df),dir='long',sep=''))
+```
+
+There are `r NROW(df1)` actual ties in this network
+
+### Part iv
+
+The density of ties in this network is `r NROW(df1)/((un-1)*un)`
+
+##Part B
+
+
+```{r,echo=FALSE}
+g = graph_from_data_frame(df1[c("Respondent","Friend")])
+plot(g,edge.arrow.width=0.5,edge.arrow.size=1,
+     ylim=c(-1,1),xlim=c(-1,1))
+```
+
+##Part C
+
+
+```{r, echo=FALSE}
+res = merge(table(degree(g,mode="out")),table(degree(g,mode="in")),by="Var1",all=T)
+names(res) = c("degree","indegree","outdegree")
+res[is.na(res)] = 0
+res = transform(res,indegreeDist = prop.table(indegree),outdegreeDist = prop.table(outdegree))[order(as.numeric(as.character(res$degree))),c(1:2,4,3,5)]
+kable(res,"pandoc",row.names = FALSE)
+par(mfrow=c(1,2))
+barplot(unname(degree(g,mode="out")),main="out degree",col=2,horiz = TRUE,xlim=c(5,0))
+barplot(degree(g,mode="in"),col=2,horiz=TRUE,las=2)
+```
+The in-degree and the out-degree distributions do not appear to be the same
+
+##Part D
+
+
+```{r,echo=FALSE}
+a = table(df1[,"Gender"],with(df1,Gender[match(Friend,Respondent)]))[2:1,2:1]
+kable(data.frame(rbind(cbind(a,Total = rowSums(a))->a,Total = colSums(a))),"pandoc")
+
+```
+
+# Question 2
+
+## Part A
+
+```{r,echo=FALSE}
+dat  = read.table('http://interactome.dfci.harvard.edu/S_cerevisiae/download/CCSB-Y2H.txt')[-3]
+g1 = graph_from_data_frame(dat)
+plot(g1)
+```
+
+## Part B
+
+```{r,echo=FALSE}
+in_degree = degree(g1,mode="in")
+out_degree = degree(g1,mode="out")
+cor(in_degree,out_degree)
+colSums(cbind(in_degree,out_degree))
+```
+
+It seems that the in-degree and the out-degree are not correlated.
+
+
+## Part C and D
+
+```{r,echo=FALSE, warning=FALSE,message=FALSE}
+#s=ayulemle(in_degree)
+funs<-c("ayule", "awar", "apoi", "acmp")
+s<-sapply(paste0(funs,"mle"),do.call,list(in_degree),USE.NAMES = TRUE)
+vs=paste0('ll',sub(".",'',funs),'all')
+D<-mapply(function(x,y) do.call(x,list(v=y$theta,x= in_degree)),vs,s)
+kable(data.frame(D),"pandoc")
+```
+
+From the above table, we see that the Conway-Maxwell-Poisson model fits the data better than the other models as it has the lowest BIC and even AIC
+
+# Question 3:
+
+## Part A
+
+```{r,echo= FALSE}
+g2 = graph_from_data_frame(dat,directed = FALSE)
+s = components(g2)
+```
+
+The largest component has `r s$csize[1]` vertices
+
+## Part B
+
+```{r,echo=FALSE}
+plot(induced.subgraph(g2,s$membership==1))
+```
+
+## Part C
+
+```{r,echo=FALSE,warning=FALSE}
+b=distances(g2)
+kable(data.frame(b[1:8,1:8]),'pandoc',caption = 'The geodesic distance between the first 8 proteins')
+```
+
+\pagebreak
+
+```{r,echo=FALSE,warning=FALSE}
+tb = unlist(distance_table(g2))
+d = data.frame(connections = as.numeric(sub('\\D+(\\d)','\\1',names(tb))),num = tb,prop = prop.table(tb))
+kable(d,'pandoc',caption = 'Summary Tabulation of the distances',row.names = FALSE)
+```
+
+Proportion of nodes that are reachable from each other: `r 1-tail(d,1)[,'prop']`
+
+
+
+```{r,echo=FALSE}
+u= sum(prop.table(head(d$num,-1))*head(d$connections,-1))
+```
+
+Mean geodesic distance for reachable pairs: `r u`
+
+Isolates in the network: 351637

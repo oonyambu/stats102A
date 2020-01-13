@@ -4,7 +4,7 @@ grade_Rscripts <- function(student_dir,teacher_file,
                     file_name = ""){
   source(teacher_file,.teacher)
   student_files <- list.files(student_dir,"\\.R$",ignore.case = TRUE,
-                              recursive = TRUE,full.names = TRUE)
+                              recursive = TRUE, full.names = TRUE)
   functions_to_test <- names(function_test_data)
   weight <- set_name(functions_to_test,weight)
   .finalize <- function(f){

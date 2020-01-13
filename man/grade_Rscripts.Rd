@@ -28,20 +28,21 @@ grades students functions.
 }
 
 \examples{
-#if you are testing two functions add(a,b), multiply(x,y,z)
-#test cases for :
+# if you are testing two functions add(a,b), multiply(x,y,z)
+# test cases for :
 #             add:               multiply:
 #            x   y                 x   y   z
 #           10  20                10  20  30
 #            0  -3                -3   2   1
 #                                  2  -3   2
+
+
 add_data <- list(list(10,20),list(0,-3))#wrote each argument since is short
 
 mult_data <- data.frame(x = c(10,-3,2),y = c(20,2,-3),z = c(30,1,2))
-# You can see the  formals:
-convt2list(mult_data)
+
 test_data <- list(add = add_data, multiply = mult_data) #must be a list
 
-##NOT RUN
-#grade_Rscripts("../students/","add_multiply_functions.R",test_data)
+\dontrun{grade_Rscripts("../students/","add_multiply_functions.R",test_data)}
+
 }

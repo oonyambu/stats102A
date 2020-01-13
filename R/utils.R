@@ -19,8 +19,7 @@
 .compare <- function(student_file, fun_name, test_data, weight,keep_par_names){
   stud_env <- new.env()
   test_data <- convt2list(test_data,keep_par_names)
-  studentID <- sub("\\D+$","",s_base <- basename(student_file))
-  if(!nchar(studentID)) studentID <- s_base
+  studentID <- sub(".*/", "", dirname(student_file))
   scr <- try(source(student_file,stud_env),TRUE)
   if (is(scr,"try-error")){
     return( list(grade=0,
@@ -64,15 +63,12 @@ agg_fun <- function(x){
   else paste0(trimws(x),collapse = "; ")
 }
 
-file_write <- function(x, fl){
+file_write <- function(x, fl = paste0(getwd(),"/result_gradeRscripts.csv"),
+                       gradeItem = "result_gradeRscripts"){
+  assign(gradeItem,x,.teacher)
   if(is.null(fl)) return(x)
-  if(nchar(fl)>0)
-    write.csv(x,fl , row.names = FALSE)
-  else {
-    fl <- paste0(getwd(),"/result.csv")
-    write.csv(x, fl, row.names = FALSE)
-    cat("The results are in", fl)
-  }
+  write.csv(x, fl, row.names = FALSE)
+  cat("The results are in", fl)
 }
 
 
@@ -97,3 +93,24 @@ set_name <- function(funs,weights){
   }
   weights[names(weights)!=""]
 }
+
+.knit <- function(path,new_dir){
+  tried <- try(
+    rmarkdown::render(path,"html_document",
+                      output_dir = new_dir,clean = TRUE,quiet = TRUE),
+    silent = TRUE)
+  !is(tried,"try-error")
+}
+
+
+# run_all <- function(){
+#   gradable_files <- readline("Do you want to check whether student submitted reduired files? y/n: ")
+#   if(c("y","yes")%in%tolower(gradable_files)){
+#     gr_files <- readline("Which files do you want to check (use comma/space as the separator)?: ")
+#     gr_files <- sub("^(.)",'\\U\\1',tolower(unlist(strsplit(gr,"\\W+"))),perl = TRUE)
+#   }
+#   name_coform <- readline("Do you want to check the conformity of file names? y/n: ")
+#   grade_scripts <- readline("Do you want to grade Rscripts? y/n: ")
+#   knitable <- readline("Do you want to check whether the .Rmd is knitable? y/n: ")
+#
+# }

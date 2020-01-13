@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4137363912",
+    "hash" : "0",
     "id" : "88732A9E",
-    "lastKnownWriteTime" : 1578698689,
-    "last_content_update" : 1578698689657,
+    "lastKnownWriteTime" : 1578814264,
+    "last_content_update" : 1578814264246,
     "path" : "D:/Work/school/102A/stats102A/R/grade_Rscripts.R",
     "project_path" : "R/grade_Rscripts.R",
     "properties" : {
-        "cursorPosition" : "8,39",
-        "scrollLine" : "5"
+        "cursorPosition" : "17,0",
+        "scrollLine" : "0"
     },
     "relative_order" : 4,
     "source_on_save" : false,

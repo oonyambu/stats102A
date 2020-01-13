@@ -4,3 +4,51 @@ convt2list <- function(dat, keep_par_names = FALSE){
     unname(by(dat,1:nrow(dat),.mklst, keep_par_names))
   else dat
 }
+
+
+has_gradable_files <- function(student_dir,
+                               conform_Naming = NULL,
+                               Rscript = TRUE,
+                               Rmd = TRUE,
+                               pdf_or_html = TRUE){
+  s_files <- list.files(student_dir, recursive = TRUE)
+  files_required <- c(Rscript,Rmd,pdf_or_html)
+  regx <- c("R","Rmd","pdf|html")[files_required]
+  cnt <- sum(files_required) # # of files -> max of 3 ie R, Rmd, html|pdf
+  if (!cnt) stop("at least one document must be specified")
+  regx <- paste0("\\.(", paste0(regx, collapse = "|"), ")$")
+  extensions <- grep(regx, s_files,ignore.case = TRUE)
+  ID  <- dirname(s_files)[extensions]
+  confrm <- if (is.null(conform_Naming)) NULL else grepl(conform_Naming, s_files[extensions])
+  exts <- tolower(sub(paste0(".*", regx), "\\1" ,s_files, ignore.case = TRUE))
+  has_files <- tapply(exts[extensions], ID, function(x) length(unique(x)) == cnt)
+  .teacher$result_has_gradable_files <- data.frame(ID = names(has_files), has_files,
+                       conform_Naming = confrm, row.names = NULL)
+  .teacher$result_has_gradable_files
+}
+
+is_knitable_Rmd <- function(student_dir){
+  new_dir <- paste0(getwd(),"/Rmd_files_knit")
+  avail_pkgs <- search()
+  student_files <- list.files(student_dir, "\\.Rmd", recursive = TRUE,
+                              ignore.case = TRUE,full.names = TRUE)
+  ID <- sub(".*/","",dirname(student_files))
+  is_knitable <-  sapply(student_files,.knit,new_dir,USE.NAMES = FALSE)
+  sapply(setdiff(search(),avail_pkgs),detach,character.only = TRUE)
+  unlink(new_dir, TRUE, TRUE)
+  .teacher$result_is_knitable_Rmd <- data.frame(ID, is_knitable)
+  .teacher$result_is_knitable_Rmd
+}
+
+# grade102A <- function(hw,file = paste0(getwd(),"/final.csv"),cache = FALSE){
+#   pat <- ls(.teacher,pattern = "^result_")
+#   if (length(pat)<0){
+#    if(exists(hw,.teacher)& cache)  pat <- hw
+#     else stop("You have not run ")
+#   }
+#   lst <- mget(pat,.teacher)
+#   rm(list = pat, envir = .teacher)
+#   result <- Reduce(function(x, y)merge(x, y, by = "ID", all = TRUE), lst)
+#   file_write(result,file,hw)
+# }
+#

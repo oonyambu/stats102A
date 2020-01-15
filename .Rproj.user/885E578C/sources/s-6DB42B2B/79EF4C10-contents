@@ -1,0 +1,22 @@
+has_gradable_files1 <- function(student_dir,
+                               conform_Naming = NULL,
+                               Rscript = TRUE,
+                               Rmd = TRUE,
+                               pdf_or_html = TRUE){
+  
+  files_required <- c(Rscript,Rmd,pdf_or_html)
+  regx <- c("R","Rmd","pdf|html")[files_required]
+  cnt <- sum(files_required) # # of files -> max of 3 ie R, Rmd, html|pdf
+  if (!cnt) stop("at least one document must be specified")
+  regx <- paste0("\\.(", paste0(regx, collapse = "|"), ")$")
+  sfiles <- list.files(student_dir, pattern = regx,
+                       recursive = TRUE,ignore.case = TRUE)
+  id <- sub("/.*","",sfiles)
+  has_files <- tapply(grepl(regx,sfiles,ignore.case = TRUE),id,sum)==cnt
+  result <- data.frame(ID = names(has_files), has_files,
+                                          row.names = NULL)
+  check_nm <- sub(regx,"",basename(sfiles),ignore.case = TRUE)
+  if(!is.null(conform_Naming))
+    result$conform_Naming <- grepl(conform_Naming,check_nm)
+  result
+}

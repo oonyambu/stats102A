@@ -138,9 +138,9 @@ set_name <- function(funs,weights){
 }
 
 knit <- function(path,new_dir){
-  tried <- try(
+  tried <- try({setTimeLimit(4);
     rmarkdown::render(path,"html_document",
-                      output_dir = new_dir,clean = TRUE,quiet = TRUE),
+                      output_dir = new_dir,clean = TRUE,quiet = TRUE)},
     silent = TRUE)
   !is(tried,"try-error")
 }

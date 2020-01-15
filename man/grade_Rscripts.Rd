@@ -4,7 +4,8 @@
 \title{Grading the Rscripts to produce a dataframe}
 \usage{
 grade_Rscripts(student_dir, teacher_file, function_test_data,
-                weight = 1,keep_par_names = FALSE, file_name = "")
+                weight = 1,keep_par_names = FALSE, file_name = "",
+                fun_dict = NULL)
 }
 \arguments{
 \item{student_dir}{ The directory that containts the students folders}
@@ -18,6 +19,8 @@ grade_Rscripts(student_dir, teacher_file, function_test_data,
 \item{keep_par_names}{ A logical parameter that is used to determine whether the parameter names in the test data and the functions are the same. Default is FALSE}
 
 \item{file_name}{The file to write the results to. if not given, the results will be written to a file in the working directory by the name results.csv. If NULL, the function will return the result dataframe instead}
+
+\item{fun_dict}{A dictionary like named-list that contain the mapping from the teacher's function to the student's function, in case where one function has multiple names. The default is NULL. The names of the list are the teacher's functions which each vector being the various names the students might have named their functions}
 }
 
 \value{
@@ -44,5 +47,8 @@ mult_data <- data.frame(x = c(10,-3,2),y = c(20,2,-3),z = c(30,1,2))
 test_data <- list(add = add_data, multiply = mult_data) #must be a list
 
 \dontrun{grade_Rscripts("../students/","add_multiply_functions.R",test_data)}
+
+\dontrun{grade_Rscripts("../students/","add_multiply_functions.R"
+,test_data, fun_dict = list(multiply = c("mult","multiplication")))}
 
 }

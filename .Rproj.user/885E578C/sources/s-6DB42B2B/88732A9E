@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1578630046386.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "88732A9E",
+    "lastKnownWriteTime" : 1579089092,
+    "last_content_update" : 1579089092541,
+    "path" : "D:/Work/school/102A/stats102A/R/grade_Rscripts.R",
+    "project_path" : "R/grade_Rscripts.R",
+    "properties" : {
+        "cursorPosition" : "13,2",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

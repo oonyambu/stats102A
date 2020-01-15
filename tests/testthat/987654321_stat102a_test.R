@@ -4,7 +4,7 @@ gcd <- function(a,b){
   a
 }
 
-GCD <- function(x,y,z)gcd(gcd(x,y),z)
+gcd_3 <- function(x,y,z)gcd(gcd(x,y),z)
 
 get_factors <- function(x){
   n <- c()

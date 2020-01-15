@@ -25,7 +25,7 @@ Checks whether a student submitted a knitable .Rmd
 ## Not run:
 
 library(stats102A)
-is_knitable_Rmd("../students")
+\dontrun{is_knitable_Rmd("../students")}
 
 ## End(Not run)
 }

@@ -1,8 +1,9 @@
 
 convt2list <- function(dat, keep_par_names = FALSE){
-  if(is.data.frame(dat))
-    unname(by(dat,1:nrow(dat),.mklst, keep_par_names))
-  else dat
+ if(is.data.frame(dat))
+    unname(by(dat,1:nrow(dat),mklst, keep_par_names))
+  else
+   dat
 }
 
 
@@ -22,9 +23,10 @@ has_gradable_files <- function(student_dir,
   confrm <- if (is.null(conform_Naming)) NULL else grepl(conform_Naming, s_files[extensions])
   exts <- tolower(sub(paste0(".*", regx), "\\1" ,s_files, ignore.case = TRUE))
   has_files <- tapply(exts[extensions], ID, function(x) length(unique(x)) == cnt)
-  .teacher$result_has_gradable_files <- data.frame(ID = names(has_files), has_files,
-                       conform_Naming = confrm, row.names = NULL)
-  .teacher$result_has_gradable_files
+  teacher$result_has_gradable_files <- data.frame(ID = names(has_files), has_files,
+                                                  row.names = NULL)
+  if(!is.null(conform_Naming))teacher$result_has_gradable_files$conform_Naming <- confrm
+  teacher$result_has_gradable_files
 }
 
 is_knitable_Rmd <- function(student_dir){
@@ -33,11 +35,11 @@ is_knitable_Rmd <- function(student_dir){
   student_files <- list.files(student_dir, "\\.Rmd", recursive = TRUE,
                               ignore.case = TRUE,full.names = TRUE)
   ID <- sub(".*/","",dirname(student_files))
-  is_knitable <-  sapply(student_files,.knit,new_dir,USE.NAMES = FALSE)
+  is_knitable <-  sapply(student_files,knit,new_dir,USE.NAMES = FALSE)
   sapply(setdiff(search(),avail_pkgs),detach,character.only = TRUE)
   unlink(new_dir, TRUE, TRUE)
-  .teacher$result_is_knitable_Rmd <- data.frame(ID, is_knitable)
-  .teacher$result_is_knitable_Rmd
+  teacher$result_is_knitable_Rmd <- data.frame(ID, is_knitable)
+  teacher$result_is_knitable_Rmd
 }
 
 # grade102A <- function(hw,file = paste0(getwd(),"/final.csv"),cache = FALSE){

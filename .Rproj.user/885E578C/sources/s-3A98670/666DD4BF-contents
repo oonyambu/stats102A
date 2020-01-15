@@ -1,2 +1,0 @@
-"ID","grade","remark"
-"students",4,"gcd 1; gcd 1; gcd 0. You are missing the gcd function; Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found; GCD 1; GCD 1; GCD 0 Your GCD could not work on some data like 0, 10, 13; Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found"

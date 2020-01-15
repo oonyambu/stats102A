@@ -1,22 +1,24 @@
 grade_Rscripts <- function(student_dir,teacher_file,
                     function_test_data,weight = 1,
                     keep_par_names = FALSE,
-                    file_name = ""){
-  source(teacher_file,.teacher)
-  student_files <- list.files(student_dir,"\\.R$",ignore.case = TRUE,
-                              recursive = TRUE, full.names = TRUE)
-  functions_to_test <- names(function_test_data)
-  weight <- set_name(functions_to_test,weight)
-  .finalize <- function(f){
-    re <-lapply(student_files,.compare,f,
-                function_test_data[[f]], weight[f], keep_par_names)
-   do.call(rbind.data.frame, c(stringsAsFactors = FALSE, re))
-  }
-  result <- do.call(rbind.data.frame,
-          c(stringsAsFactors = FALSE,
-            lapply(functions_to_test,.finalize)))
+                    file_name = "",
+                    fun_dict = NULL){
 
-  file_write(aggregate(.~ID,result,agg_fun), file_name)
+  make_teacher(student_dir,teacher_file,
+               function_test_data,weight,
+               keep_par_names ,
+               fun_dict)
+
+  student_files <- list.files(student_dir,"\\.R$",ignore.case = TRUE,
+                               recursive = TRUE, full.names = TRUE)
+  re <- do.call(rbind,lapply(student_files,compare))
+  dat <-data.frame(ID = re[,1],grade = as.numeric(re[,2]),
+                   remark=re[,3],stringsAsFactors = FALSE)
+  if(!is.null(file_name))  {
+    fl_1 <- sub("\\\\[^\\]+\\\\?$", "",normalizePath(student_dir))
+    file_name <-normalizePath(file.path(fl_1,"result_gradeRscripts.csv"))
+  }
+  file_write(aggregate(.~ID,dat,agg_fun), file_name)
 }
 
 

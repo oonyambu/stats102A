@@ -1,0 +1,6 @@
+"ID","grade","remark"
+"453654725",2,"gcd 1; GCD 1"
+"505084567",0,"gcd 0 Your gcd could not work on some data like 462, 1452; and 10, 10; and 5, 1 Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found; GCD 0 Your GCD could not work on some data like 33, 121, 69; and 432, 1452, 18; and 5, 1, 54 Error in ifelse(y, gcd(y%%x, x), x) : object 'y' not found"
+"505088325",1.63636363636364,"gcd 0.82 Your gcd could not work on some data like 0.7, 0.8; and 0, 10; and 10.1, 10; gcd_three 0.82 Your gcd_three could not work on some data like 10.1, 10, 5; and 0, 10, 13; and 0.7, 0.8, 5"
+"654923456",0,"gcd 0. You are missing the gcd function; GCD 0 Your GCD could not work on some data like 33, 121, 69; and 5, 1, 54; and -3, 5, 4"
+"987654765",1.81818181818182,"gcd 0.91 Your gcd could not work on some data like 0.7, 0.8; and 10.1, 10 Error : reached CPU time limit; GCD 0.91 Your GCD could not work on some data like 10.1, 10, 5; and 0.7, 0.8, 5 Error : reached CPU time limit"

@@ -49,15 +49,15 @@ is_knitable_Rmd <- function(student_dir){
   data.frame(ID, is_knitable)
 }
 
-# grade102A <- function(hw,file = paste0(getwd(),"/final.csv"),cache = FALSE){
-#   pat <- ls(.teacher,pattern = "^result_")
-#   if (length(pat)<0){
-#    if(exists(hw,.teacher)& cache)  pat <- hw
-#     else stop("You have not run ")
-#   }
-#   lst <- mget(pat,.teacher)
-#   rm(list = pat, envir = .teacher)
-#   result <- Reduce(function(x, y)merge(x, y, by = "ID", all = TRUE), lst)
-#   file_write(result,file,hw)
-# }
-#
+no_functions_in_Rmd <- function(student_dir){
+  sfiles <- list.files(student_dir, "\\.Rmd$",
+                       full.names = TRUE,
+                       recursive = TRUE,
+                       ignore.case = TRUE)
+  ID <- sub(".*/","",dirname(sfiles))
+  data.frame(ID, has_no_functions = sapply(sfiles,has_no_function),row.names = NULL)
+}
+
+has_no_function <- function(path){
+  !any(grepl("<-\\s* function\\(.*?\\)",suppressWarnings(readLines(path))))
+}

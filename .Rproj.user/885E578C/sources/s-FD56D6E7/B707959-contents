@@ -9,19 +9,19 @@ comp <- function(x,studentFUN,correctFUN,class_value = "numeric"){
   student <- try({setTimeLimit(0.5);suppressMessages(
     suppressWarnings(do.call(studentFUN,as.list(x))))},silent = TRUE)
   correct <- try(do.call(correctFUN,as.list(x)),silent = TRUE)
-  if(is(correct,"try-error")){
+  if(inherits(correct,"try-error")){
     nl <- is.null(student)
     if(!nl){
       mes <- simpleError(student)$message
-      if(is(student,'try-error')&grepl("CPU time limit",mes)){
+      if(inherits(student,'try-error')&grepl("CPU time limit",mes)){
           return(mes)
         }
-      !is(student,class_value)|is.na(student)
+      !inherits(student,class_value)|is.na(student)
     }
     else TRUE
   }
   else{
-    if (is(student,'try-error')){
+    if (inherits(student,'try-error')){
       return(remark = simpleError(student)$message)
     }
     student == correct
@@ -67,7 +67,7 @@ compare <- function(student_file){
   studentID <- sub(".*/", "", dirname(student_file))
   stud_env$ID  <- studentID
   scr <- try(source(student_file,stud_env),TRUE)
-  if (is(scr,"try-error")){
+  if (inherits(scr,"try-error")){
     return( c(ID = studentID,grade=0,
               remark =simpleError(scr)$message))
   }
@@ -160,7 +160,7 @@ knit <- function(path, new_dir, new_file){
   }
   else
     cat(ID, "Successful","\n", file = new_file,append = TRUE)
-  !is(tried,"try-error")
+  !inherits(tried,"try-error")
 }
 
 

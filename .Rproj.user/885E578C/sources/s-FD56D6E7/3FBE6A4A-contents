@@ -1,0 +1,75 @@
+004938486 Successful 
+004997640 Successful 
+005118457 Successful 
+005179375 Successful 
+005314632 Successful 
+104785647 Successful 
+104835973 Successful 
+104964210 Successful 
+105011917 Error in is_prime(numbers) : reached CPU time limit 
+105141909 Successful 
+105148406 Successful 
+105180910 Successful 
+105181373 Successful 
+105313707 Successful 
+204750765 Successful 
+204931950 Error : pandoc document conversion failed with error 67 
+204975350 Successful 
+204983840 Successful 
+205013402 Successful 
+205016132 Error : pandoc document conversion failed with error 67 
+205084946 Successful 
+205148298 Successful 
+205184309 Error in setwd("D:/STUDY/STATS102/HW/hw1") :   cannot change working directory 
+205186836 Successful 
+304726322 Successful 
+304736038 Successful 
+304791510 Successful 
+304981322 Successful 
+305105123 Successful 
+305129124 Error in setwd("/Users/issac/Desktop/STAT 102A/HW_1") :   cannot change working directory 
+404412991 Successful 
+404440135 Successful 
+404961578 Successful 
+405133413 Successful 
+405180131 Successful 
+405314668 Successful 
+504767967 Successful 
+504812352 Successful 
+504941146 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+505000021 Error : pandoc document conversion failed with error 67 
+505020062 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+505088325 Successful 
+505180362 Successful 
+604625958 Error : pandoc document conversion failed with error 67 
+604799784 Successful 
+604935649 Successful 
+604937870 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+604974235 Successful 
+605022555 Successful 
+605139126 Error : pandoc document conversion failed with error 67 
+704785772 Successful 
+704789591 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+704805987 Successful 
+704806883 Successful 
+704883923 Successful 
+704927521 Successful 
+704961510 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+705001010 Error : pandoc document conversion failed with error 67 
+705011778 Successful 
+705127340 Successful 
+705331096 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+804820708 Successful 
+804919177 Successful 
+804934309 Successful 
+804989330 Error : pandoc document conversion failed with error 67 
+805105413 Successful 
+805140765 Successful 
+805358245 Successful 
+805365745 Successful 
+904639299 Error : pandoc document conversion failed with error 67 
+904754661 Successful 
+904813547 Error in file(filename, "r", encoding = encoding) :   cannot open the connection 
+904971914 Successful 
+905006399 Error in unzip("install-tl.zip") : reached CPU time limit 
+905088050 Successful 

@@ -34,14 +34,18 @@ has_gradable_files <- function(student_dir,
 is_knitable_Rmd <- function(student_dir){
   student_dir <- gsub("\\\\","/",normalizePath(student_dir))
   new_dir <- paste0(getwd(),"/Rmd_files_knit")
+  new_file <- file.path(getwd(),"is_knitable_results.txt")
+  if(file.exists(new_file))
+    file.remove(new_file)
+  file.create(new_file)
   avail_pkgs <- search()
   student_files <- list.files(student_dir, "\\.Rmd", recursive = TRUE,
                               ignore.case = TRUE,full.names = TRUE)
-
   ID <- sub("/.*","",sub(paste0(student_dir,"/*"),"",dirname(student_files)))
-  is_knitable <-  sapply(student_files,knit,new_dir,USE.NAMES = FALSE)
+  is_knitable <-sapply(student_files,knit,new_dir,new_file,USE.NAMES = FALSE)
   sapply(setdiff(search(),avail_pkgs),detach,character.only = TRUE)
   unlink(new_dir, TRUE, TRUE)
+  cat("the comments have been written to ", new_file)
   data.frame(ID, is_knitable)
 }
 

@@ -23,7 +23,9 @@ grade_Rscripts <- function(student_dir,teacher_file,
 
 
 
-
+opts_stats102A <- function(...,reset = FALSE){
+  opts(...,reset = reset)
+}
 
 
 

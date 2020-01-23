@@ -1,4 +1,10 @@
 teacher <- new.env()
+teacher$opts_stats102A <- list(time_limit = 4,
+                               retain_installed_packages = TRUE,
+                               install_missing_packages = TRUE)
+
+teacher$opts_stats102A_use <- teacher$opts_stats102A
+
 comp <- function(x,studentFUN,correctFUN,class_value = "numeric"){
   student <- try({setTimeLimit(0.5);suppressMessages(
     suppressWarnings(do.call(studentFUN,as.list(x))))},silent = TRUE)
@@ -137,23 +143,37 @@ set_name <- function(funs,weights){
   weights[names(weights)!=""]
 }
 
-knit <- function(path,new_dir){
-  tried <- try({setTimeLimit(4);
-    rmarkdown::render(path,"html_document",
-                      output_dir = new_dir,clean = TRUE,quiet = TRUE)},
+knit <- function(path, new_dir, new_file){
+  ID <- sub(".*/","",dirname(path))
+  cat("Knitting", ID,"\n")
+  tried <- try({setTimeLimit(teacher$opts_stats102A_use$time_limit);
+    suppressWarnings(rmarkdown::render(path,"html_document",
+      output_dir = new_dir,clean = TRUE,quiet = TRUE))},
     silent = TRUE)
+  if(inherits(tried,"try-error")){
+    if (grepl("no package called",tried)){
+      mes <- trimws(sub(".*no package called","",tried))
+      install.packages(gsub("\\W+","",mes))
+      knit(path,new_dir, new_file)
+    }
+    else cat(ID, gsub("\n","",tried),"\n" , file = new_file, append = TRUE)
+  }
+  else
+    cat(ID, "Successful","\n", file = new_file,append = TRUE)
   !is(tried,"try-error")
 }
 
 
-# run_all <- function(){
-#   gradable_files <- readline("Do you want to check whether student submitted reduired files? y/n: ")
-#   if(c("y","yes")%in%tolower(gradable_files)){
-#     gr_files <- readline("Which files do you want to check (use comma/space as the separator)?: ")
-#     gr_files <- sub("^(.)",'\\U\\1',tolower(unlist(strsplit(gr,"\\W+"))),perl = TRUE)
-#   }
-#   name_coform <- readline("Do you want to check the conformity of file names? y/n: ")
-#   grade_scripts <- readline("Do you want to grade Rscripts? y/n: ")
-#   knitable <- readline("Do you want to check whether the .Rmd is knitable? y/n: ")
-#
-# }
+
+opts <- function(...,reset = FALSE){
+  y <- as.list(match.call()[-1])
+  y$reset <- NULL
+  nm <- setdiff(names(y),names(teacher$opts_stats102A_use))
+  if(length(nm))
+    stop("There are no options for ", toString(nm))
+  if(length(y)>0)
+   teacher$opts_stats102A_use <-modifyList(teacher$opts_stats102A_use,y)
+  if(reset)
+    teacher$opts_stats102A_use <- teacher$opts_stats102A
+  if(!length(y)&!reset) teacher$opts_stats102A_use
+}

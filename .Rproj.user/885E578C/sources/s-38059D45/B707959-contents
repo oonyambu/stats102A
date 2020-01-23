@@ -18,19 +18,8 @@ comp <- function(x, studentFUN, correctFUN, class_value = "numeric") {
     silent = TRUE
   )
   correct <- try(do.call(correctFUN, as.list(x)), silent = TRUE)
-  if (inherits(correct, "try-error")) {
-    nl <- is.null(student)
-    if (!nl) {
-      mes <- simpleError(student)$message
-      if (inherits(student, "try-error") & grepl("CPU time limit", mes)) {
-        return(mes)
-      }
-      !inherits(student, class_value) | is.na(student)
-    }
-    else {
-      TRUE
-    }
-  }
+  if (inherits(correct, "try-error"))
+    inherits(student, "try-error")|is.null(students)
   else {
     if (inherits(student, "try-error")) {
       return(remark = simpleError(student)$message)
@@ -61,7 +50,7 @@ fun_comp <- function(fun_name, stud_env) {
   stud_fun <- get0(s_f_name, stud_env, "function", FALSE)
   teach_fun <- get0(fun_name, teacher, "function", FALSE)
   if (length(formalArgs(teach_fun)) != length(test_data[[1]])) {
-    stop("Incorrect number of arguments for the test data as compared to the function")
+    stop("Incorrect number of arguments for the test data as compared to ", fun_name, " args")
   }
   val <- sapply(test_data, comp, stud_fun, teach_fun)
   ln <- as.logical(val)
@@ -70,9 +59,16 @@ fun_comp <- function(fun_name, stud_env) {
   remark <- paste(s_f_name, fin_val)
   if (any(is.na(ln) | !ln)) {
     tss <- test_data[is.na(ln) | !ln]
-
-    not_work <- sapply(sample(tss, min(c(3, length(tss)))), function(x) toString(unlist(x)))
-
+    ln <- lengths(tss)
+    tss1 <- tss[ln <= min(ln) + 3]
+    if (min(ln) < 4) {
+      not_work <- sapply(
+        sample(tss1, min(c(3, length(tss1)))),
+        function(x) toString(unlist(x))
+      )
+    } else {
+      not_work <- tss[[which.min(ln)]]
+    }
     remark <- paste(
       s_f_name, round(fin_val, 2), "Your", s_f_name,
       "could not work on some data like",

@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "9C682C3B",
-    "lastKnownWriteTime" : 1579767843,
-    "last_content_update" : 1579767843,
+    "lastKnownWriteTime" : 1579774335,
+    "last_content_update" : 1579774335025,
     "path" : "D:/Work/school/102A/stats102A/tests/testthat/test-all.R",
     "project_path" : "tests/testthat/test-all.R",
     "properties" : {
-        "cursorPosition" : "14,24",
-        "scrollLine" : "8"
+        "cursorPosition" : "39,22",
+        "scrollLine" : "34"
     },
     "relative_order" : 5,
     "source_on_save" : false,

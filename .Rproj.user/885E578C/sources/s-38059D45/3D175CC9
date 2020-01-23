@@ -1,12 +1,12 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1579765886049.000,
+    "created" : 1579774659255.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "42D1C411",
+    "id" : "3D175CC9",
     "lastKnownWriteTime" : 1579767835,
     "last_content_update" : 1579767835,
     "path" : "D:/Work/school/102A/stats102A/R/test_function.R",
@@ -16,7 +16,7 @@
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
-    "relative_order" : 10,
+    "relative_order" : 5,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

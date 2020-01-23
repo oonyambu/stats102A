@@ -1,0 +1,16 @@
+gcd_three <-
+function(c, d, e){
+  #This is a function to find the GCD of three inputs
+  #Args:
+  #c: numeric vector of length 1
+  #d: numeric vector of length 1
+  #e: numeric vector of length 1
+  #Return: numeric vector of length 1  
+  
+  if(!is.numeric(c) | !is.numeric(d) | !is.numeric(e)){
+    stop("One or both of the input is not numeric!")
+  }
+  first_gcd <- gcd(c, d)
+  real_gcd <- gcd(first_gcd, e)
+  real_gcd
+}

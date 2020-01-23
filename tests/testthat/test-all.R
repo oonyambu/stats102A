@@ -1,25 +1,23 @@
+tst <- data.frame(matrix(c(
+  1071, 462,
+  18678, 120,
+  24, 60,
+  30, 24,
+  98, 99,
+  0, 10,
+  33, 121,
+  432, 1452,
+  462, 1452,
+  -3, 5
+), ncol = 2, byrow = T))
 library(stats102A)
-
-tst <- structure(list(X1 = c(1071, 18678, 24, 30, 98, 0, 33, 432, 462,
-                             -3, 0.7, 1, -0.4, 5, 4.5, 462, 120, 10, -3, 5, 10, 10.1), X2 = c(462,
-                                                                                              120, 60, 24, 99, 10, 121, 1452, 1452, 5, 0.8, 5, 4.5, -3, -0.4,
-                                                                                              1071, 18678, 0, -5, 1, 10, 10)), row.names = c(NA, 22L), class = "data.frame")
-
-
-tst <- list(gcd = convt2list(tst),
-            gcd_3 = convt2list(cbind(tst,c(42,30,100,36,77,13,69,18,54,4,5))))
-
-
-
-
-
-
-stu <- "D:/Work/school/102A/stats102A/tests/testthat/students"
-te <- "D:/Work/school/102A/stats102A/tests/testthat/987654321_stat102a_test.R"
-grade_Rscripts(student_dir = stu,teacher_file = te,function_test_data = tst,
-               file_name = NULL)
-# grade_Rscripts("tests/testthat/students/",
-#                "tests/testthat/987654321_stat102a_test.R",tst,c(10,5))
-# grade_Rscripts("students/","987654321_stat102a_test.R",tst)
-grade_Rscripts(stu,te,tst
-                ,fun_dict = list(gcd_3 = c("gcd_three","gcd3","GCD")))
+tst1 <- list(
+  gcd = convt2list(tst),
+  gcd_3 = convt2list(cbind(tst, c(42, 30, 100, 36, 77, 13, 69, 18, 54, 4))),
+  is_prime = list(100, 1298, 1:100), get_factors = list(32, 564, 100, 98, 97)
+)
+students <- "D:/Work/school/102A/LEC3_HW1/"
+teacher <- "D:/Work/school/102A/homeworks/987654321_stat102a_test.R"
+stats102A::grade_Rscripts(students, teacher, tst1,
+  fun_dict = list(gcd_3 = c("gcd_three", "gcd3")), file_name = NULL
+)

@@ -13,12 +13,16 @@
 }
 
 \details{
+\describe{
+\item{time_limit_knit:}{A numeric value. Default is 4. The maximum allowable time to knit a file beyond which an error is produced}
+\item{time_limit_compute:}{A numeric value. Default is 0.5. The maximum allowable time to a given computation}
 
-{time_limit}{A numeric value. Default is 4. The maximum allowable time to knit a file beyond which an error is produced}
+\item{max_space:}{The space used to allign the text printed on the screen while grading the scripts}
 
-{install_missing_packages}{A logical value to determine whether to install the missing packages used in an Rmd file and then knit it. Default is TRUE. if FALSE, the packages used in aRMD, if not already installed will not be installed and thus knitting will be unsuccessful}
+\item{install_missing_packages:}{A logical value to determine whether to install the missing packages used in an Rmd file and then knit it. Default is TRUE. if FALSE, the packages used in aRMD, if not already installed will not be installed and thus knitting will be unsuccessful}
 
-{retain_installed_packages}{A logical value whether to retain any newly installed packages while knitting. The default is TRUE. will only be considered if install_missing_packages is set to TRUE
+\item{retain_installed_packages:}{A logical value whether to retain any newly installed packages while knitting. The default is TRUE. will only be considered if install_missing_packages is set to TRUE
+}
 }
 
 }
@@ -31,7 +35,7 @@
 
 \examples{
 opts_stats102A()
-opts_stats102A(time_limit = 10)
+opts_stats102A(time_limit_knit = 10)
 opts_stats102A()
 opts_stats102A(reset = TRUE)
 opts_stats102A()

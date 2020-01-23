@@ -66,6 +66,3 @@ get_factors <- function(x) {
   }
   (x / x:1)[0 == (x / x:1) %% 1][sapply((x / x:1)[0 == (x / x:1) %% 1], is_prime)]
 }
-
-
-

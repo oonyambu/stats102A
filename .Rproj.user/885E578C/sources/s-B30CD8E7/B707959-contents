@@ -84,6 +84,8 @@ compare <- function(student_file) {
   studentID <- sub(".*/", "", dirname(student_file))
   stud_env$ID <- studentID
   cat("Grading", studentID, "\n")
+  if(has_install(student_file))
+    return(cbind(ID = studentID,remark = "Installing a package-cannot grade"))
   scr <- try(source(student_file, stud_env), TRUE)
   if (inherits(scr, "try-error")) {
     return(c(

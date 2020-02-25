@@ -12,10 +12,13 @@
     "path" : "D:/Work/school/102A/stats102A/R/convt2list.R",
     "project_path" : "R/convt2list.R",
     "properties" : {
-        "cursorPosition" : "9,0",
+        "cursorPosition" : "20,28",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
     "relative_order" : 4,
     "source_on_save" : false,
     "source_window" : "",

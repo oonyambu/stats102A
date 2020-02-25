@@ -1,0 +1,85 @@
+
+##ENSURE YOU INSTALL THE LATEST. I UPDATED IT.
+# If not, uninstall the one that you have remove.packages(stats102A) then 
+#restart the session (Cntr/cmd+shift+F10)and run this script
+if(!require(stats102A)) devtools::install_github("oonyambu/stats102A")
+gcd <- structure(list(
+  c(
+    1071, 18678, 24, 30, 98, 0, 33, 432, 462,
+    -3, 462, 646, 1, 0, 4.5, -1
+  ),
+  c(
+    462, 120, 60, 24, 99, 10, 121, 1452, 1452,
+    5, 1071, 1406, 10, 12, 12, 12
+  )
+),
+row.names = 1:16L, class = "data.frame"
+)
+
+gcd_three <- structure(list(
+  c(
+    1071, 18678, 24, 30, 98, 0, 33, 432, 462,
+    -3, 1071, 646
+  ),
+  c(
+    462, 120, 60, 24, 99, 10, 121, 1452, 1452,
+    5, 462, 1406
+  ),
+  c(
+    42, 30, 100, 36, 77, 13, 69, 18, 54, 4,
+    4452, 4218
+  )
+),
+class = "data.frame",
+row.names = 1:12L
+)
+
+is_prime <- list(100, 1298, 1:100, 9, c(2, 97, 23, 51, 119, -1, 0, 1.5))
+
+get_factors <- list(32, 564, 100, 98, 97, 12, 1800, 32851, 9587, -280, 280.75, 0, 1)
+
+test_data <- list(
+  gcd = gcd,
+  gcd_three = gcd_three,
+  is_prime = is_prime,
+  get_factors = get_factors
+)
+
+
+test_data <- lapply(test_data, stats102A::convt2list)
+
+students <- "D:/Work/school/102A/LEC3_HW1/" # Location of the student folders
+teacher <- "987654321_stat102a_test.R" # Will send this as well
+
+# The grading from this will be
+# 1. gcd --> 10 points
+# 2. gcd_3/gcd_three --> 5 points
+# 3. is_prime --> 10 points
+# 4. get_factors --> 10 points
+
+(results_grade <-stats102A::grade_Rscripts(students, teacher, test_data,
+  c(10, 5, 10, 10),
+  fun_dict = list(gcd_three = c("gcd_3", "gcd3")),
+  file_name = NULL
+))
+
+#The ones that do not have functions in their markdowns have more points.
+(results_no_funs <- stats102A::no_functions_in_Rmd(students))
+
+
+# This function has some issues yet as it does not consider a scenario
+# where the student uploads more than one pdf yet. Will update it.
+#You could use it. But where it is FALSE, you should manually check 
+#folder to ensure that the folder should be trully false otherwise true.
+(results_gradable <- stats102A::has_gradable_files(students,"\\d{9}_stats102a_hw1"))
+
+# Ian said that knitting takes abit longer. So added an option to 
+# increase the knitting time. You can check other options
+
+#some students might have used the interractive mode(readline). YOu can manually
+#enter to skip the promps. Will tell them not to.
+stats102A::opts_stats102A(time_limit_knit = 10)
+(results_knit <- stats102A::is_knitable_Rmd(students))
+
+
+

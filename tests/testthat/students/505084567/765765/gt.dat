@@ -1,0 +1,16 @@
+FRAM_#            0            0(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  1.008
+FRAM_#          100           25(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.955
+FRAM_#          200           50(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.993
+FRAM_#          300           75(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.973
+FRAM_#          400          100(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.988
+FRAM_#          500          125(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  1.033
+FRAM_#          600          150(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  1.032
+FRAM_#          700          175(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.986
+FRAM_#          800          200(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  1.061
+FRAM_#          900          225(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  1.078
+FRAM_#         1000          250(fs)  CN= 1 PRMRYTGT     14689      H      15449      O  0.922
+FRAM_#         1100          275(fs)  CN= 2 PRMRYTGT     14689      H      17402      O  1.257     15449      O  1.430
+FRAM_#       303200        75800(fs)  CN= 0 PRMRYTGT_BD     14689      H
+FRAM_#       921200       230300(fs)  CN= 1 PRMRYTGT_BD     14689      H        8375      O  1.062
+FRAM_#      1078700       269675(fs)  CN= 1 PRMRYTGT_BD     14689      H       12971      O  1.507
+FRAM_#     18203400      4550850(fs)  CN= 1 PRMRYTGT_BD     14689      H       16172      O  1.507

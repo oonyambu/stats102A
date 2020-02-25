@@ -119,7 +119,9 @@ make_teacher <- function(student_dir, teacher_file,
   teacher$keep_par_names <- keep_par_names
 }
 
-
+has_install <- function(path){
+  any(grepl("^[^#]*install",readLines(path)))
+}
 
 
 
@@ -186,6 +188,11 @@ set_name <- function(funs, weights) {
 knit <- function(path, new_dir, new_file) {
   ID <- sub(".*/", "", dirname(path))
   cat("Knitting", ID, "\n")
+  if(has_install(path)){
+  cat(ID, "Not knittable - Installing a package", "\n",
+      file = new_file, append = TRUE)
+  return(FALSE)
+  }
   tried <- try(
     {
       setTimeLimit(teacher$opts_stats102A_use$time_limit_knit)

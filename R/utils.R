@@ -14,7 +14,7 @@ comp <-
     stopifnot(is.function(studentFUN), is.function(correctFUN))
     capture.output(student <- try({
       setTimeLimit(teacher$opts_stats102A_use$time_limit_compute)
-      do.call(studentFUN, as.list(x))
+      suppressMessages(do.call(studentFUN, as.list(x)))
     },
     silent = TRUE))
     correct <- try(do.call(correctFUN, as.list(x)), silent = TRUE)

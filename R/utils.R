@@ -19,10 +19,13 @@ comp <- function(x, studentFUN, correctFUN, class_value = "numeric") {
   )
   correct <- try(do.call(correctFUN, as.list(x)), silent = TRUE)
   if (inherits(correct, "try-error"))
-    inherits(student, "try-error")|is.null(students)
+    inherits(student, "try-error") | is.null(student)
   else {
     if (inherits(student, "try-error")) {
       return(remark = simpleError(student)$message)
+    }
+    if(length(correct) == 0){
+      return(length(student) == 0)
     }
     a <- all.equal(c(unname(student)), c(unname(correct)))
     if (is.logical(a)) a else FALSE

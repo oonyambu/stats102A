@@ -12,11 +12,11 @@ teacher$opts_stats102A_use <- teacher$opts_stats102A
 comp <-
   function(x, studentFUN, correctFUN, class_value = "numeric") {
     stopifnot(is.function(studentFUN), is.function(correctFUN))
-    student <- try({
+    capture.output(student <- try({
       setTimeLimit(teacher$opts_stats102A_use$time_limit_compute)
       do.call(studentFUN, as.list(x))
     },
-    silent = TRUE)
+    silent = TRUE))
     correct <- try(do.call(correctFUN, as.list(x)), silent = TRUE)
     if (inherits(correct, "try-error"))
       inherits(student, "try-error") | is.null(student)

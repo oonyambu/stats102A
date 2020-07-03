@@ -70,5 +70,11 @@ no_functions_in_Rmd <- function(student_dir) {
 }
 
 has_no_function <- function(path) {
-  !any(grepl("<-\\s* function\\(.*?\\)", suppressWarnings(readLines(path))))
+  lns <- suppressWarnings(readLines(path))
+  idx <- grep("```", lns, fixed = TRUE)
+  R_chunks_idx <- match(grep("```\\{r.*?\\}", lns), idx)
+  search_idx <-
+    unlist(Map(":", idx[R_chunks_idx], idx[R_chunks_idx + 1]))
+  ! any(grepl("<-\\s* function\\(.*?\\)", lns[search_idx]))
 }
+

@@ -10,7 +10,7 @@ teacher$opts_stats102A <- list(
 teacher$opts_stats102A_use <- teacher$opts_stats102A
 
 comp <-
-  function(x, studentFUN, correctFUN, class_value = "numeric") {
+  function(x, studentFUN, correctFUN, ...) {
     stopifnot(is.function(studentFUN), is.function(correctFUN))
     capture.output(student <- try({
       setTimeLimit(teacher$opts_stats102A_use$time_limit_compute)
@@ -27,7 +27,7 @@ comp <-
       if (length(correct) == 0) {
         return(length(student) == 0)
       }
-      a <- all.equal(c(unname(student)), c(unname(correct)))
+      a <- all.equal(student, correct, ...)
       if (is.logical(a))
         a
       else
@@ -63,7 +63,7 @@ fun_comp <- function(fun_name, stud_env) {
          fun_name,
          " args")
   }
-  val <- sapply(test_data, comp, stud_fun, teach_fun)
+  val <- sapply(test_data, comp, stud_fun, teach_fun, ...)
   ln <- as.logical(val)
   fin_val <-
     sum(ln, na.rm = TRUE) / length(ln) * teacher$weight[fun_name]

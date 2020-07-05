@@ -4,7 +4,7 @@ grade_Rscripts <- function(student_dir, teacher_file,
                            file_name = "",
                            fun_dict = NULL,
                            controls = list(tolerance = 0, check.attributes = FALSE),
-                           no_match) {
+                           no_match = TRUE) {
   make_teacher(
     student_dir, teacher_file,
     function_test_data, weight,

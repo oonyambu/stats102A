@@ -70,30 +70,31 @@ fun_comp <- function(fun_name, stud_env) {
   if (any(grepl("object.*not found", val)))
     fin_val <- 0
   remark <- paste(s_f_name, fin_val)
-  if (any(is.na(ln) | !ln)) {
-    tss <- test_data[is.na(ln) | !ln]
-    ln <- lengths(tss)
-    tss1 <- tss[ln <= min(ln) + 3]
-    if (min(ln) < 4) {
-      not_work <- sapply(sample(tss1, min(c(
-        3, length(tss1)
-      ))),
-      function(x)
-        toString(unlist(x)))
-    } else {
-      not_work <- tss[[which.min(ln)]]
+  if(teacher$no_match){
+    if (any(is.na(ln) | !ln)) {
+      tss <- test_data[is.na(ln) | !ln]
+      ln <- lengths(tss)
+      tss1 <- tss[ln <= min(ln) + 3]
+      if (min(ln) < 4) {
+        not_work <- sapply(sample(tss1, min(c(
+          3, length(tss1)
+        ))),
+        function(x)
+          toString(unlist(x)))
+      } else {
+        not_work <- tss[[which.min(ln)]]
+      }
+      remark <- paste(
+        s_f_name,
+        round(fin_val, 2),
+        "Your",
+        s_f_name,
+        "could not work on some data like",
+        paste0(not_work, collapse = "; and "),
+        toString(unique(val[is.na(ln)]))
+      )
     }
-    remark <- paste(
-      s_f_name,
-      round(fin_val, 2),
-      "Your",
-      s_f_name,
-      "could not work on some data like",
-      paste0(not_work, collapse = "; and "),
-      toString(unique(val[is.na(ln)]))
-    )
   }
-  
   c(grade = fin_val, remark = remark)
 }
 
@@ -127,7 +128,7 @@ make_teacher <- function(student_dir,
                          weight = 1,
                          keep_par_names = FALSE,
                          fun_dict = NULL,
-                         controls = list()) {
+                         controls = list(), no_match = TRUE) {
   source(teacher_file, teacher)
   functions_to_test <- names(function_test_data)
   teacher$weight <- set_name(functions_to_test, weight)
@@ -139,6 +140,7 @@ make_teacher <- function(student_dir,
   }
   teacher$keep_par_names <- keep_par_names
   teacher$controls <- controls
+  teacher$no_match <- no_match
                            
 }
 

@@ -10,7 +10,7 @@ teacher$opts_stats102A <- list(
 teacher$opts_stats102A_use <- teacher$opts_stats102A
 
 comp <-
-  function(x, studentFUN, correctFUN, ...) {
+  function(x, studentFUN, correctFUN) {
     stopifnot(is.function(studentFUN), is.function(correctFUN))
     capture.output(student <- try({
       setTimeLimit(teacher$opts_stats102A_use$time_limit_compute)
@@ -27,7 +27,7 @@ comp <-
       if (length(correct) == 0) {
         return(length(student) == 0)
       }
-      a <- all.equal(student, correct, ...)
+      a <- do.call(all.equal, c(list(student, correct), teacher$controls))
       if (is.logical(a))
         a
       else
@@ -63,7 +63,7 @@ fun_comp <- function(fun_name, stud_env) {
          fun_name,
          " args")
   }
-  val <- sapply(test_data, comp, stud_fun, teach_fun, ...)
+  val <- sapply(test_data, comp, stud_fun, teach_fun)
   ln <- as.logical(val)
   fin_val <-
     sum(ln, na.rm = TRUE) / length(ln) * teacher$weight[fun_name]
@@ -126,7 +126,8 @@ make_teacher <- function(student_dir,
                          function_test_data,
                          weight = 1,
                          keep_par_names = FALSE,
-                         fun_dict = NULL) {
+                         fun_dict = NULL,
+                         controls = list()) {
   source(teacher_file, teacher)
   functions_to_test <- names(function_test_data)
   teacher$weight <- set_name(functions_to_test, weight)
@@ -136,8 +137,9 @@ make_teacher <- function(student_dir,
   if (!is.null(fun_dict)) {
     teacher$fun_dict <- unstack(stack(c(teacher$fun_dict, fun_dict)))
   }
-  
   teacher$keep_par_names <- keep_par_names
+  teacher$controls <- controls
+                           
 }
 
 has_install <- function(path) {

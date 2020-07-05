@@ -1,6 +1,6 @@
-test_function <- function(test_dat, studentFUN, correctFUN, class_value = "numeric") {
+test_function <- function(test_dat, studentFUN, correctFUN, ...) {
   test_dat <- convt2list(test_dat)
-  a <- sapply(test_dat, comp, studentFUN, correctFUN, class_value)
+  a <- sapply(test_dat, comp, studentFUN, correctFUN, ...)
   b <- suppressWarnings(as.logical(a))
   if (any(is.na(b) | !b)) {
     sprintf(

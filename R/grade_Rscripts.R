@@ -2,12 +2,13 @@ grade_Rscripts <- function(student_dir, teacher_file,
                            function_test_data, weight = 1,
                            keep_par_names = FALSE,
                            file_name = "",
-                           fun_dict = NULL) {
+                           fun_dict = NULL, controls = list(tolerance = 0, check.attributes = FALSE)) {
   make_teacher(
     student_dir, teacher_file,
     function_test_data, weight,
     keep_par_names,
-    fun_dict
+    fun_dict,
+    controls
   )
   options(warn = -1)
   student_files <- list.files(student_dir, "\\.R$",

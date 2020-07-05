@@ -3,7 +3,7 @@ grade_Rscripts <- function(student_dir, teacher_file,
                            keep_par_names = FALSE,
                            file_name = "",
                            fun_dict = NULL,
-                           controls = list(tolerance = 0, check.attributes = FALSE),
+                           controls = list(tolerance = 0, check.attributes = FALSE, ...),
                            no_match = TRUE) {
   make_teacher(
     student_dir, teacher_file,

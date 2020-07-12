@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1593968119399.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1705126753",
+    "id" : "613C3714",
+    "lastKnownWriteTime" : 1594186952,
+    "last_content_update" : 1594186952142,
+    "path" : "D:/Work/school/102A/stats102A/man/grade_Rscripts.Rd",
+    "project_path" : "man/grade_Rscripts.Rd",
+    "properties" : {
+        "cursorPosition" : "43,44",
+        "scrollLine" : "26"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

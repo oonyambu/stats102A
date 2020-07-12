@@ -1,9 +1,9 @@
 
-\name{is_knitable_Rmd}
-\alias{is_knitable_Rmd}
+\name{is_knittable_Rmd}
+\alias{is_knittable_Rmd}
 \title{Check whether r markdown is knitable}
 \usage{
-is_knitable_Rmd(student_dir)
+is_knittable_Rmd(student_dir)
 }
 \arguments{
 

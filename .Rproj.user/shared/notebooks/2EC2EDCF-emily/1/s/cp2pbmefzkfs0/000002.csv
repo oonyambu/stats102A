@@ -1,0 +1,8 @@
+"0","observed_test <- abs(diff(tapply(A, treatment, mean)))"
+"0","observed_test"
+"1","      1 "
+"1","
+"
+"1","0.19425 "
+"1","
+"

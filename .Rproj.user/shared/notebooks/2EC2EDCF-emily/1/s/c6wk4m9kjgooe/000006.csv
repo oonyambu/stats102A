@@ -1,0 +1,3 @@
+"0","ggplot(schools, aes(open, colour = factor(treatment))) + "
+"0","  stat_ecdf() + "
+"0","  ylab(""CDF"")"

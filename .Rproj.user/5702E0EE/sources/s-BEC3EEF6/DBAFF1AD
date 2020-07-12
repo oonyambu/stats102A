@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1594187019579.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DBAFF1AD",
+    "lastKnownWriteTime" : 1594535980,
+    "last_content_update" : 1594535980336,
+    "path" : "D:/Work/school/102A/stats102A/R/convt2list.R",
+    "project_path" : "R/convt2list.R",
+    "properties" : {
+        "cursorPosition" : "202,38",
+        "scrollLine" : "197"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

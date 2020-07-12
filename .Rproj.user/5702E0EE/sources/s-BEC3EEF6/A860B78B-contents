@@ -1,0 +1,231 @@
+---
+title: ""
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: tango
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "", warning = FALSE)
+```
+
+# Qestion 1
+
+This question is asking for the number of ways we could select 4 schools out of 8 schools to be used as treatment:
+
+```{r}
+choose(8, 4)
+```
+
+# Question 2
+
+For this observed data, what would be the value of our statistic? 
+
+Statistic is defined to be the absolute difference between the treatment and control.
+
+```{r}
+treatment = c(0, 1, 0, 0, 0, 1, 1, 1)
+A = c(0.462, 0.731, 0.571, 0.923, 0.333, 0.750, 0.893, 0.692)
+```
+
+## Method 1. Subsetting the data
+
+```{r}
+observed_test <- abs(mean(A[treatment == 1]) - mean(A[treatment == 0]))
+observed_test
+```
+
+## Method 2. Using tapply
+
+```{r}
+observed_test <- abs(diff(tapply(A, treatment, mean)))
+observed_test
+```
+
+
+## Method 3. Matrix multiplication
+
+```{r}
+A %*% treatment / 4 - A%*% (1 - treatment) / 4
+```
+
+
+# Question 3
+
+
+We know that there are 70 ways of choosing 4 from 8. How many of these produce a test statistic greater than the observed in question 2?
+
+```{r}
+library(perm)
+perms <- chooseMatrix(8, 4)
+treatment_avg <- perms %*% A / 4
+control_avg <- (1 - perms) %*% A / 4
+test_statistic <- abs(treatment_avg - control_avg)
+sum(test_statistic >= observed_test)
+```
+
+# Question 4
+
+Lecture 15: Analyzing Randomized Experiments -- slides 12-19
+What would be the Fisher’s Exact p-value in this case? 
+
+This is the proportion of the test statistics greater than the observed statistic.
+
+```{r}
+mean(test_statistic >= observed_test)
+```
+
+
+# Question 5
+
+With 49 schools treated, what are the number of possible assignments in this case?
+
+$$
+\binom{100}{49}
+$$
+
+Still do not know whether $\binom{100}{51}$ Can be considered as an answer:
+
+ie:
+
+$$
+\binom{100}{49} = \frac{100!}{49!(100-49)!} =
+ \frac{100!}{49!~51!} =  \frac{100!}{(100-51)!51!} = \binom{100}{51} 
+$$
+
+# Question 6 and 7
+
+Changed the code into:
+
+```{r}
+schools <- read.csv('teachers_final.csv')
+len <- 100 # The number of simulations
+simul_stat <- numeric(len)
+set.seed(1001)
+for (i in 1:len) {
+  rand <- runif(100, min = 0, max = 1)
+  treatment_rand <- as.numeric(rank(rand) <= 49)
+  simul_stat[i] <-  diff(tapply(schools$open, treatment_rand, mean))
+}
+```
+
+## Question 7
+Actual_stat is the ATE
+```{r}
+actual_stat <- with(schools, diff(tapply(open, treatment, mean)))
+actual_stat
+```
+
+## Question 6
+
+proportion of simulations in which the statistic exceeds the value of the observed data
+```{r}
+mean(abs(simul_stat) >= actual_stat)
+```
+
+
+# Question 8 to 11
+
+## Question 8
+
+What is the upper bound of the standard error of this point estimate using Neyman’s method?
+(Hint: Use the conservative estimator of sampling standard deviation, $\sqrt{\mathbb{V}_{neyman}}$, as your upper
+bound.) 
+
+The hint gives it away. We should use the conservative estimator as the upper bound. It is the denominator of the t-statistic
+
+The  t- statistic:
+
+$$
+t = \frac{\bar y_t - \bar y_c}{\sqrt{\frac{S_t^2}{N_t}+\frac{S^2_c}{N_c}}}
+$$
+
+
+```{r}
+vars <- with(schools, tapply(open,treatment,function(x) var(x)/length(x)))
+sqrt(sum(vars))
+```
+
+
+How did the techer do it?. The code provided to you does compute this:
+
+```{r}
+schools$control = 1-schools$treatment
+control_mean <- sum(schools$control*schools$open)/sum(schools$control)
+treatment_mean <- sum(schools$treatment*schools$open)/sum(schools$treatment)
+s_c <- (1/(sum(schools$control)-1))*sum(((schools$open-control_mean)*schools$control)^2)
+s_t <- (1/(sum(schools$treatment)-1))*sum(((schools$open-treatment_mean)*schools$treatment)^2)
+Vneyman <- (s_c/sum(schools$control) + s_t/sum(schools$treatment))
+print(sqrt(Vneyman))
+```
+
+
+We can use R function t.test to compute this value together with the confidence interval:
+
+```{r}
+with(schools, t.test(open[treatment == 1], open[treatment == 0]))
+```
+
+## Question 9
+
+The t statistic from the result above : `t = 6.4453`
+ 
+## Question 10
+
+The p-value from the above is `5.511e-09`. This is practically 0.
+ 
+## Question 11
+
+95 percent confidence interval: `(0.1362178 0.2575995)`
+  
+
+# Question 12
+
+# Question 13
+
+
+# Question 14
+
+b, c, a (Narrowest to widest bandwidth)
+
+# Question 15
+0.04
+
+# Question 16
+
+Kolmogrov-Smirnov test
+
+# Question 17
+
+F, F, N, KS, KS
+
+# Question 18
+Kolmogorov-Smirnof test:
+
+Note that In the two-sample case alternative = "greater" includes distributions for which x is stochastically smaller than y (the CDF of x lies above and hence to the left of that for y). Thus we say that the distribution of open in the treatment group first order stochastically dominates the distribution of test scores in the control group
+
+
+```{r}
+library(ggplot2)
+ggplot(schools, aes(open, colour = factor(treatment))) + 
+  stat_ecdf() + 
+  ylab("CDF")
+```
+
+
+
+```{r}
+with(schools,ks.test(open[treatment == 0], open[treatment == 1], alternative = "greater"))
+```
+
+
+Why do we need this? 
+```{r}
+with(schools,ks.test(pctpostwritten[treatment == 0], pctpostwritten[treatment == 1], alternative = "greater"))
+```
+
+
+

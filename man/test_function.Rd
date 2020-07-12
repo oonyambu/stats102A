@@ -3,7 +3,7 @@
 \alias{test_function}
 \title{evaluate Correctness of a function}
 \usage{
-test_function(test_dat ,studentFUN ,correctFUN , class_value = "numeric")
+test_function(test_dat ,studentFUN ,correctFUN)
 }
 \arguments{
 
@@ -14,7 +14,6 @@ test_function(test_dat ,studentFUN ,correctFUN , class_value = "numeric")
 
 \item{correctFUN}{ Function to be tested against}
 
-\item{class_value}{The class of the result that is expected. Default is numeric}
 }
 
 \value{

@@ -3,9 +3,10 @@
 \alias{grade_Rscripts}
 \title{Grading the Rscripts to produce a dataframe}
 \usage{
-grade_Rscripts(student_dir, teacher_file, function_test_data,
-                weight = 1,keep_par_names = FALSE, file_name = "",
-                fun_dict = NULL)
+grade_Rscripts(student_dir, teacher_file, function_test_data, weight
+                    = 1, keep_par_names = FALSE, file_name = "", fun_dict
+                    = NULL, controls = list(tolerance = 0,
+                    check.attributes = FALSE), no_match = TRUE)
 }
 \arguments{
 \item{student_dir}{ The directory that containts the students folders}
@@ -21,6 +22,10 @@ grade_Rscripts(student_dir, teacher_file, function_test_data,
 \item{file_name}{The file to write the results to. if not given, the results will be written to a file in the working directory by the name results.csv. If NULL, the function will return the result dataframe instead}
 
 \item{fun_dict}{A dictionary like named-list that contain the mapping from the teacher's function to the student's function, in case where one function has multiple names. The default is NULL. The names of the list are the teacher's functions which each vector being the various names the students might have named their functions}
+
+\item{controls}{A list of aguments that are passed into `all.equal` function. The default is list(tolerance = 0, check.attributes = FALSE). You could add more arguments in the list}
+
+\item{no_match}{A logical value as to whether to print the data where the teacher and student functions gave conflicting results. The default is TRUE}
 }
 
 \value{

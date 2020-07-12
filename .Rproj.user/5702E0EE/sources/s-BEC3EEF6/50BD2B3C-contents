@@ -1,0 +1,186 @@
+# 1: Short Answers.
+rm(list = ls())
+getwd()
+setwd("/Users/byungwookkang/Stats102A")
+
+#(a)
+
+# Worked cite : Google cloud dataset(bigquery-public-data) (https://cloud.google.com/public-datasets/)
+ex1 <- read.csv("bikeshare_stations.csv", header = TRUE) # import .csv files 
+ex2 <- read.csv("ccl00.csv", header = TRUE)  # import .csv files
+ex3 <- read.csv("usa_1910_2013.csv", header = TRUE) # import .csv files
+
+ex1 <- head(ex2, n = 10)
+ex2 <- head(ex2, n = 10)
+ex3 <- head(ex3, n = 10)
+
+
+#(b)
+library(tidyverse)
+
+ex1_td <- read_csv("bikeshare_stations.csv") # readr version
+ex2_td <- read_csv("ccl00.csv") # readr version
+ex3_td <- read_csv("usa_1910_2013.csv") # readr version
+
+ex1_td <- head(ex1_td[,-4], n = 10)
+ex2_td <- head(ex2_td, n = 10)
+ex3_td <- head(ex3_td, n = 10)
+
+ex1_td
+ex2_td
+ex3_td 
+
+# 2: Teacher's Gradebook
+
+#(a)
+set.seed(005314632) # set the seed for reproduceablility
+a <- rbinom(150 * 13, 100, 0.7999) # rbinom function
+a <- matrix(a, nrow = 150, ncol = 13) # 150 x 13 matrix
+a <- as.data.frame(a) # treat as data.frame
+
+# column names
+cnames <- c("Homework_1", "Homework_2", "Homework_3", "Homework_4", "Homework_5", "Homework_6", "Homework_7", "Homework_8", "Homework_9", "Homework_10", "Exam_1", "Exam_2", "Exam_3")
+
+# colnames 1 to 13
+for (i in 1 : length(cnames)) {
+  colnames(a)[i] <- cnames[i]
+  colnames(a)
+}
+
+head(a)
+
+# 150 UID sample
+r <- sample(100000000 : 999999999, 150)
+
+# bind UID and a
+gradebook <- cbind("UID" = r, a)
+head(gradebook)
+
+# 150 Section sample with 80 A and 70 B
+c <- sample(c("A", "B"), 150 , replace = TRUE,prob = c(80/150, 70/150))
+c
+head(c)
+
+# bind Section and gradebook
+gradebook <- cbind(gradebook, "Section" = c)
+head(gradebook)
+
+#(b)
+
+# 11th column of gradebook
+g1 <- gradebook[,11]
+g1
+
+# Set rondomly 15 of g1 to NA
+g1[sample(g1, 15)] <- NA
+g1
+
+# Set rondomly 15 of g2 to NA
+g2 <- gradebook[,14]
+g2[sample(g2, 15)] <- NA
+g2
+
+# Set g1 and g2 to 11th and 14th column of gradebook
+gradebook[,11] <- g1
+gradebook[,14] <- g2
+
+head(gradebook[,2:14])
+
+#(c-e)
+
+# messy_impute which impute missing values in a data frame
+messy_impute <- function(gradebook, center, margin) {
+# error handling
+  if(!is.data.frame(gradebook)) {
+    stop("this is not data frame")
+  }
+
+# when margin is equal to 1, will return NA of homework_10 and Exam_3 to average of Homework_1 to 9 and Exam 1 to 2
+  if (margin == 1) {
+    hw_replace <- apply(gradebook[, 2:11], margin, center, na.rm = TRUE)
+    gradebook$Homework_10 <- ifelse(is.na(gradebook$Homework_10), hw_replace, gradebook$Homework_10)
+    
+    ex_replace <- apply(gradebook[, 12:14], margin, center, na.rm = TRUE)
+    gradebook$Exam_3 <- ifelse(is.na(gradebook$Exam_3), ex_replace, gradebook$Exam_3)
+  }
+
+# when margin is equal to 2, will return NA of homework_10 and Exam_3 to average of Homework 10 and Exam_3, except NA
+  if (margin == 2) {
+    gradebook_A = gradebook[gradebook$Section == "A", ]
+    gradebook_A$Homework_10[is.na(gradebook_A$Homework_10)] <- center(gradebook_A$Homework_10, na.rm = TRUE)
+    
+    gradebook_B = gradebook[gradebook$Section == "B", ]
+    gradebook_B$Homework_10[is.na(gradebook_B$Homework_10)] <- center(gradebook_B$Homework_10, na.rm = TRUE)
+    
+    gradebook_A = gradebook[gradebook$Section == "A", ]
+    gradebook_A$Exam_3[is.na(gradebook_A$Exam_3)] <- center(gradebook_A$Exam_3, na.rm = TRUE)
+    
+    gradebook_B = gradebook[gradebook$Section == "B", ]
+    gradebook_B$Exam_3[is.na(gradebook_B$Exam_3)] <- center(gradebook_B$Exam_3, na.rm = TRUE)
+    
+    row_bine <- rbind(gradebook_A, gradebook_B)
+    result <- row_bine[match(gradebook$UID, row_bine$UID), ]
+    rownames(result) <- NULL
+    gradebook <- result
+  }
+  gradebook # return gradebook
+}
+
+messy_impute(gradebook, mean, 3)
+messy_impute(gradebook, median, 2)
+
+messy_impute(gradebook, mean, 1)
+messy_impute(gradebook, median, 1)
+
+
+# (f)
+gradebook_tidy <- as_tibble(gradebook) # treat as tibble
+gradebook_tidy %>% print(n = 5, width = Inf)
+
+# (g)
+
+# tidy_impute function will impute missing values from a specified column in a tibble that is organized in the same tidy way as gradebook_tidy
+tidy_impute <- function(gradebook_tidy, center, margin) {
+  if(!is.tibble(gradebook_tidy)) {
+    stop("this is not tibble")
+  }
+
+# when margin is equal to 1, grouped by Section A and B
+  if(margin == 1) {
+   a <- gradebook_tidy %>%
+      group_by(Section) %>%
+      summarize(homework_10 = center(Homework_10, na.rm =T), Exam_3 = center(Exam_3, na.rm=T))
+   
+   result <- a
+  }
+
+# when margin is equal to 2, set mean or median of Homework_10 and Exam_3 to a and b
+  if(margin == 2) {
+    a <- gradebook_tidy %>%
+      summarize(center = center(Homework_10, na.rm = TRUE))
+    b <- gradebook_tidy %>%
+      summarize(center = center(Exam_3, na.rm = TRUE))
+
+# select Homework_10 and Exam_3 columns and replace NA to mean or median of Homework_10 and Exam_3  
+   result <- gradebook_tidy %>%
+      select(Homework_10, Exam_3) %>%
+      mutate(Homework_10 = ifelse(is.na(Homework_10), a[[1]], Homework_10), Exam_3 = ifelse(is.na(Exam_3), b[[1]], Exam_3)) %>%
+      print(n = 10, width = Inf)
+  }
+# return result
+  result
+}
+
+
+tidy_impute(gradebook_tidy, mean, 1)
+tidy_impute(gradebook_tidy, median, 1)
+
+tidy_impute(gradebook_tidy, mean, 2)
+tidy_impute(gradebook_tidy, median, 2)
+
+
+
+
+  
+
+

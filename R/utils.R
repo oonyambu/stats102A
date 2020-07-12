@@ -1,4 +1,5 @@
 teacher <- new.env()
+
 teacher$opts_stats102A <- list(
   time_limit_knit = 4,
   time_limit_compute = 0.5,
@@ -8,12 +9,13 @@ teacher$opts_stats102A <- list(
 )
 
 teacher$opts_stats102A_use <- teacher$opts_stats102A
+teacher$no_match <- FALSE
 
 comp <-
   function(x, studentFUN, correctFUN) {
     stopifnot(is.function(studentFUN), is.function(correctFUN))
     capture.output(student <- try({
-      setTimeLimit(teacher$opts_stats102A_use$time_limit_compute)
+      setTimeLimit(teacher$opts_stats102A_use$time_limit_compute,transient = TRUE)
       suppressMessages(do.call(studentFUN, as.list(x)))
     },
     silent = TRUE))
@@ -55,7 +57,7 @@ fun_comp <- function(fun_name, stud_env) {
                      s_f_name, "function")
     ))
   }
-  
+
   stud_fun <- get0(s_f_name, stud_env, "function", FALSE)
   teach_fun <- get0(fun_name, teacher, "function", FALSE)
   if (length(formalArgs(teach_fun)) != length(test_data[[1]])) {
@@ -128,7 +130,7 @@ make_teacher <- function(student_dir,
                          weight = 1,
                          keep_par_names = FALSE,
                          fun_dict = NULL,
-                         controls = list(), no_match = TRUE) {
+                         controls = list(), no_match) {
   source(teacher_file, teacher)
   functions_to_test <- names(function_test_data)
   teacher$weight <- set_name(functions_to_test, weight)
@@ -141,11 +143,12 @@ make_teacher <- function(student_dir,
   teacher$keep_par_names <- keep_par_names
   teacher$controls <- controls
   teacher$no_match <- no_match
-                           
+
 }
 
 has_install <- function(path) {
-  any(grepl("^[^#]*install", readLines(path)))
+  any(grepl("^[^#]*install",
+            suppressWarnings(suppressMessages(readLines(path)))))
 }
 
 
@@ -253,7 +256,16 @@ knit <- function(path, new_dir, new_file) {
   ! inherits(tried, "try-error")
 }
 
-
+my_unzip <- function(zp) {
+  path <- dirname(zp)
+  unzip(zp, exdir = path)
+  unlink(list.files(path, pattern = "_", full.names = TRUE),
+         recursive = TRUE, force = TRUE)
+  fls <- list.files(sub("\\.zip$", "", zp), full.names = TRUE)
+  file.copy(fls, path)
+  unlink(dirname(fls[1]), recursive = TRUE, force = TRUE)
+  file.remove(zp)
+}
 
 opts <- function(..., reset = FALSE) {
   y <- as.list(match.call()[-1])

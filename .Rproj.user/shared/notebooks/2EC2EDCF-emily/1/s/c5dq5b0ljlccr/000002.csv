@@ -1,6 +1,0 @@
-"0","vars <- with(schools, tapply(open,treatment,function(x) var(x)/length(x)))"
-"0","sqrt(sum(vars))"
-"1","[1]"
-"1"," 0.03055088"
-"1","
-"

@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "3255565438",
     "id" : "DBAFF1AD",
-    "lastKnownWriteTime" : 1594535980,
-    "last_content_update" : 1594535980336,
+    "lastKnownWriteTime" : 1595036531,
+    "last_content_update" : 1595036531897,
     "path" : "D:/Work/school/102A/stats102A/R/convt2list.R",
     "project_path" : "R/convt2list.R",
     "properties" : {
-        "cursorPosition" : "202,38",
-        "scrollLine" : "197"
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [

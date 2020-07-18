@@ -109,6 +109,11 @@ compare <- function(student_file) {
     return(cbind(ID = studentID, remark = "Installing a package-cannot grade"))
   scr <- try(source(student_file, stud_env), TRUE)
   if (inherits(scr, "try-error")) {
+      if (grepl("no package called", scr)) {
+        mes <- trimws(sub(".*no package called", "", scr))
+        install.packages(gsub("\\W+", "", mes))
+        compare(student_file)
+      }
     return(c(
       ID = studentID,
       grade = 0,

@@ -48,7 +48,7 @@ grade_Rscripts <- function(student_dir,
       normalizePath(file.path(fl_1, "result_gradeRscripts.csv"))
   }
   options(warn = 0)
-  rm(list = setdiff(names(.GlobalEnv), start))
+  rm(list = setdiff(names(.GlobalEnv), start), envir = .GlobalEnv)
   file_write(aggregate(. ~ ID, dat, agg_fun), file_name)
 }
 

@@ -1,6 +1,10 @@
 test_function <- function(test_dat, studentFUN, correctFUN) {
   test_dat <- convt2list(test_dat)
-  a <- sapply(test_dat, comp, studentFUN, correctFUN)
+  stud_env <- new.env()
+  stud_env$stud_fun <- studentFUN
+  teacher$teach_fun <- correctFUN
+  a <- sapply(test_dat, comp, stud_env,teacher)
+  rm("teach_fun", envir = teacher)
   b <- suppressWarnings(as.logical(a))
   if (any(is.na(b) | !b)) {
     if (teacher$no_match)

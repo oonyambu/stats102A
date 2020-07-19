@@ -42,6 +42,8 @@ has_gradable_files <- function(student_dir,
 
 is_knittable_Rmd <- function(student_dir) {
   student_dir <- gsub("\\\\", "/", normalizePath(student_dir))
+  options(warn = -1)
+  start <- names(.GlobalEnv)
   new_dir <- paste0(getwd(), "/Rmd_files_knit")
   new_file <- file.path(getwd(), "is_knitable_results.txt")
   if (file.exists(new_file)) {
@@ -63,6 +65,8 @@ is_knittable_Rmd <- function(student_dir) {
   sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
   unlink(new_dir, TRUE, TRUE)
   cat("the comments have been written to ", new_file)
+  rm(list = setdiff(names(.GlobalEnv), start), envir = .GlobalEnv)
+  options(warn = 0)
   data.frame(ID, is_knitable)
 }
 

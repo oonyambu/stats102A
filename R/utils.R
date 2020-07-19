@@ -11,15 +11,17 @@ teacher$opts_stats102A <- list(
 teacher$opts_stats102A_use <- teacher$opts_stats102A
 teacher$no_match <- FALSE
 
+
+
 comp <-
-  function(x, studentFUN, correctFUN) {
-    stopifnot(is.function(studentFUN), is.function(correctFUN))
+  function(x, stud_env, teacher) {
+
     capture.output(student <- try({
       setTimeLimit(teacher$opts_stats102A_use$time_limit_compute,transient = TRUE)
-      suppressMessages(do.call(studentFUN, as.list(x)))
+      suppressMessages(do.call(stud_env$stud_fun, as.list(x)), stud_env)
     },
     silent = TRUE))
-    correct <- try(do.call(correctFUN, as.list(x)), silent = TRUE)
+    correct <- try(do.call(teacher$teach_fun, as.list(x)), silent = TRUE)
     if (inherits(correct, "try-error"))
       inherits(student, "try-error") | is.null(student)
     else {
@@ -36,18 +38,19 @@ comp <-
         FALSE
     }
   }
+
 teacher$sp <-
   sprintf("%%%ds",-teacher$opts_stats102A_use$max_space)
+
+
+
 
 fun_comp <- function(fun_name, stud_env) {
   cat("\t\t", sprintf(teacher$sp, fun_name))
   test_data <- teacher$test_data[[fun_name]]
   fn <-
     match(teacher$fun_dict[[fun_name]], nm_s <- names(stud_env), 0)
-  s_f_name <- if (length(nm_s[fn]) == 1)
-    nm_s[fn]
-  else
-    fun_name
+  s_f_name <- if (length(nm_s[fn]) == 1)  nm_s[fn]  else    fun_name
   cat("Done!\n")
   if (!exists(s_f_name, stud_env, inherits = FALSE, mode = "function")) {
     return(c(
@@ -58,14 +61,15 @@ fun_comp <- function(fun_name, stud_env) {
     ))
   }
 
-  stud_fun <- get0(s_f_name, stud_env, "function", FALSE)
-  teach_fun <- get0(fun_name, teacher, "function", FALSE)
-  if (length(formalArgs(teach_fun)) != length(test_data[[1]])) {
+  stud_env$stud_fun <- get0(s_f_name, stud_env, "function", FALSE)
+  teacher$teach_fun <- get0(fun_name, teacher, "function", FALSE)
+  stopifnot(is.function(stud_env$stud_fun), is.function(teacher$teach_fun))
+  if (length(formalArgs(teacher$teach_fun)) != length(test_data[[1]])) {
     stop("Incorrect number of arguments for the test data as compared to ",
          fun_name,
          " args")
   }
-  val <- sapply(test_data, comp, stud_fun, teach_fun)
+  val <- sapply(test_data, comp, stud_env, teacher)
   ln <- as.logical(val)
   fin_val <-
     sum(ln, na.rm = TRUE) / length(ln) * teacher$weight[fun_name]
@@ -102,7 +106,7 @@ fun_comp <- function(fun_name, stud_env) {
 
 compare <- function(student_file) {
   stud_env <- new.env()
-  studentID <- sub(".*/", "", dirname(student_file))
+  studentID <- basename(dirname(student_file))
   stud_env$ID <- studentID
   cat("Grading", studentID, "\n")
   if (has_install(student_file))
@@ -218,7 +222,7 @@ set_name <- function(funs, weights) {
 }
 
 knit <- function(path, new_dir, new_file) {
-  ID <- sub(".*/", "", dirname(path))
+  ID <- basename(dirname(path))
   cat("Knitting", ID, "\n")
   if (has_install(path)) {
     cat(
@@ -231,7 +235,7 @@ knit <- function(path, new_dir, new_file) {
     return(FALSE)
   }
   tried <- try({
-    setTimeLimit(teacher$opts_stats102A_use$time_limit_knit)
+    setTimeLimit(teacher$opts_stats102A_use$time_limit_knit,transient = TRUE)
     rmarkdown::render(
       path,
       "html_document",

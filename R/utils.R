@@ -106,11 +106,13 @@ fun_comp <- function(fun_name, stud_env) {
 
 compare <- function(student_file) {
   stud_env <- new.env()
+  avail_pkgs <- search()
   studentID <- basename(dirname(student_file))
   stud_env$ID <- studentID
   cat("Grading", studentID, "\n")
-  if (has_install(student_file))
+  if (has_install(student_file)){
     return(cbind(ID = studentID, remark = "Installing a package-cannot grade"))
+    }
   scr <- try(source(student_file, stud_env), TRUE)
   if (inherits(scr, "try-error")) {
       if (grepl("no package called", scr)) {
@@ -118,16 +120,20 @@ compare <- function(student_file) {
         install.packages(gsub("\\W+", "", mes))
         compare(student_file)
       }
+    {
+      sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
     return(c(
       ID = studentID,
       grade = 0,
       remark = "Your file could not be sourced!"
     ))
+    }
   }
   s <- cbind(ID = studentID,
              t(sapply(
                names(teacher$fun_dict), fun_comp, stud_env
              )))
+  sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
   cat("\t\t\t\t\tDone with", studentID, "!!!\n\n")
   s
 }
@@ -234,12 +240,14 @@ knit <- function(path, new_dir, new_file) {
     )
     return(FALSE)
   }
+
   tried <- try({
     setTimeLimit(teacher$opts_stats102A_use$time_limit_knit,transient = TRUE)
     rmarkdown::render(
       path,
       "html_document",
       output_dir = new_dir,
+      knit_root_dir = dirname(path),
       clean = TRUE,
       quiet = TRUE
     )

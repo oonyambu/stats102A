@@ -50,7 +50,7 @@ is_knittable_Rmd <- function(student_dir) {
     file.remove(new_file)
   }
   file.create(new_file)
-  avail_pkgs <- search()
+
   student_files <- list.files(
     student_dir,
     "\\.Rmd",
@@ -60,9 +60,14 @@ is_knittable_Rmd <- function(student_dir) {
   )
   ID <-
     sub("/.*", "", sub(paste0(student_dir, "/*"), "", dirname(student_files)))
-  is_knitable <-
-    sapply(student_files, knit, new_dir, new_file, USE.NAMES = FALSE)
-  sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
+  is_knitable <-c()
+    for( i in seq_along(student_files)) {
+      avail_pkgs <- search()
+      nms1 <- ls(envir = parent.frame())
+      is_knitable[i] <- knit(student_files[i],new_dir, new_file)
+      rm(list = setdiff(ls(), nms1),envir = parent.frame())
+      sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
+      }
   unlink(new_dir, TRUE, TRUE)
   cat("the comments have been written to ", new_file)
   rm(list = setdiff(names(.GlobalEnv), start), envir = .GlobalEnv)
@@ -211,7 +216,11 @@ check_fn <- function(dat, chks) {
 has_data <- function(student_dir, data_name, mode, check = alist()){
   lst <- list.dirs(student_dir,recursive = FALSE)
   if(length(lst) == 0) lst <- student_dir
-  vals <- sapply(lst, has_data_1,
-                 data_name = data_name, mode = mode, check = check)
+  vals <- c()
+  for (i in seq_along(lst)){
+    avail_pkgs <- search()
+    vals[i] <- has_data_1(lst[i], data_name, mode, check)
+    sapply(setdiff(search(), avail_pkgs), detach, character.only = TRUE)
+  }
   data.frame(ID = basename(lst), has_data = vals, row.names = NULL)
 }

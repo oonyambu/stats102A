@@ -1,0 +1,104 @@
+## Question 1
+
+### a
+get_decimal <- function(x){
+  if(x>0){
+    x - (x %/% 1)
+  }
+}
+get_decimal(12.34)
+get_decimal(123.6123)
+get_decimal(213)
+
+
+### b
+
+get_digit_after_dec <- function(x){
+  if(x>0){
+    new <- ((x - x %/% 1)*10)
+    new - (new %% 1)
+  }
+}
+get_digit_after_dec(12.34)
+get_digit_after_dec(123.6123)
+get_digit_after_dec(213)
+
+
+### c
+
+get_digit_at_pos <- function(x, pos){
+  if(x>0){
+    var <- x* (10^((-1*pos)-1))
+    get_digit_after_dec(var)
+  }
+}
+get_digit_at_pos(612.34, 2)
+get_digit_at_pos(612.34, 1)
+get_digit_at_pos(612.34, 0)
+get_digit_at_pos(612.34, -1)
+get_digit_at_pos(612.34, -2)
+get_digit_at_pos(612.34, 4)
+
+
+
+## 2
+
+
+cbrt <- function(x){
+  sign(x) * ((abs(x))^(1/3))
+}
+cbrt(-8)
+cbrt(1)
+cbrt(27)
+
+
+
+## 3
+
+### a
+
+swap_first_last <- function(vec){
+  first <- vec[1]
+  vec[1] <- vec[length(vec)]
+  vec[length(vec)] <- first
+  vec
+}
+swap_first_last(c(12, 35, 9, 56, 24))
+swap_first_last(c(1, 2, 3))
+
+
+### b
+
+swap <- function(vec, pos1, pos2){
+  holder <- vec[pos1]
+  vec[pos1] <- vec[pos2]
+  vec[pos2] <- holder
+  vec
+}
+swap(c(23, 65, 19, 90), 1, 3)
+swap(c(1, 2, 3, 4, 5), 2, 5)
+
+
+
+## 4
+
+a <- c(4, 8, 8, -4, 4, -4)
+b <- c(3, 4, 8, 5, 3, 5)
+max(a) # Returns the highest value in the vector
+min(a) # Returns the lowest value in the vector
+max(a, b) # Returns the highest value among both vectors
+pmax(a, b) # Returns a vector with the highest value for each respective position of the vectors
+pmin(a, b) # Returns a vector with the lowest value for each respective position of the vectors
+table(a) # Returns each value of vector and how many times it occurs in the vector
+table(a, b) # Returns a grid plotting how often a value in one vector is in the same position of the value in the other vector
+unique(a) # Returns the vector without any repeated values
+duplicated(a) # Returns a logical vector that shows TRUE if that value had been repeated in the function earlier and FALSE if it is not a repeat
+order(a) # Returns a vector labeling their ascending numerical order respective to the rest of the vector
+which(a == b) # Returns the position(s) in which the values in vector a and b at that position are equal
+which.max(b) # Returns the position of the maximum value of the vector
+match(a, a) # Returns a vector of where each position can finds the earliest position of its own value
+a %in% b # Returns a logical vector testing if each position of vector a can be found in vector b
+b %in% a # Returns a logical vector testing if each position of vector b can be found in vector a
+max.col(cbind(a, b)) # Finds the max value of each row in the column binded matrix of a and b
+max.col(-cbind(a, b)) # Finds the max value of each row in the opposite sign column binded matrix of a and b
+

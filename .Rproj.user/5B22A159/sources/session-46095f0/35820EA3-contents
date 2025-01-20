@@ -1,0 +1,89 @@
+
+# Question 1a --------------------------------------------------------------
+
+get_decimal <- function(x) {
+
+  decimal_part <- x %% 1
+  return(decimal_part)
+}
+
+
+
+# Question 1b --------------------------------------------------------------
+
+get_digit_after_dec <- function(x){
+
+  decimal_part <- x %% 1
+  new_num <- decimal_part * 10
+  new_num <- new_num - (new_num %% 1)
+  return(new_num)
+}
+
+
+
+# Question 1c --------------------------------------------------------------
+
+get_digit_at_pos <- function(x, pos){
+  new_num <- x / (10**(pos + 1))
+  new_num <-  (new_num %% 1) * 10
+  integer_part <- new_num - (new_num %% 1)
+
+  return(integer_part)
+}
+
+
+# Question 2 --------------------------------------------------------------
+cbrt <- function(x) {
+
+  res <- sign(x) * abs(x)^(1/3)
+  return(res)
+}
+
+
+
+# Question 3a --------------------------------------------------------------
+
+swap_first_last <- function(vec){
+  first <- vec[1]
+  last <- vec[length(vec)]
+  vec[1] <- last
+  vec[length(vec)] <- first
+  return(vec)
+}
+
+
+
+# Question 3b -------------------------------------------------------------
+
+swap <- function(vec, pos1, pos2){
+  position_1 <- vec[pos1]
+  position_2 <- vec[pos2]
+  vec[pos2] <- position_1
+  vec[pos1] <- position_2
+  return(vec)
+}
+
+
+
+
+# Question 4 --------------------------------------------------------------
+
+a <- c(4, 8, 8, -4, 4, -4) # creates a vector
+b <- c(3, 4, 8, 5, 3, 5) # creates a vector
+max(a) #Returns the highest value in vector a
+min(a) #Returns the lowest value in vector b
+max(a, b) #Returns the highest value between vector a and vector b
+pmax(a, b) #Returns the maximum values between vector a and vector b, based on indices. At every index, the two values are compared and the highest one is returned.
+pmin(a, b) #Returns the minimum values between vector a and vector b, based on indices. At every index, the two values are compared and the lowest one is returned.
+table(a) #Returns a frequency table of how many times an element in vector a has been repeated in the vector
+table(a, b) #Returns frequency table of how many times a combination of elements between vectors a and b have been repeated.
+unique(a) #Returns unique elements in vector a (does not repeat elements)
+duplicated(a) #Returns boolean value based on whether the element has been repeated in the vector. TRUE if the vector has already seen the element, FALSE if the element is the first occurence
+order(a) #Returns the indices of the vector in ascending order
+which(a == b) #Returns the indices at which vector a is equal to vector b
+which.max(b) #Returns the index of the highest value in vector b
+match(a, a) #Returns a vector of positions indicating where each element of a first appears in a
+a %in% b #Returns boolean values on whether element in vector a appears in vector b
+b %in% a #Returns boolean values on whether element in vector b appears in vector a
+max.col(cbind(a, b)) #cbind() is combining vector a and vector b by column to form a matrix. max.col() returns a vector of the column indices of the maximum value for each row
+max.col(-cbind(a, b)) #-cbind() is combining vector a and vector b by column to form a matrix, but every element is negative. max.col() returns a vector of the column indices of the maximum value for each row

@@ -1,0 +1,56 @@
+
+
+create_student_folder_from_zip <- function(file){
+  path <- tools::file_path_sans_ext(file)
+  unzip(file, exdir = path)
+  fls <- list.files(path = path, full.names = TRUE, include.dirs = TRUE)
+  if(any(grepl(".zip",fls)))return();
+  dr <- file.path(dirname(fls), sub(".*_.*_(\\d{9})_.*", "\\1",fls))
+  sapply(dr, \(x)if(!dir.exists(x))dir.create(x, recursive = FALSE))
+  to <- file.path(dr, gsub(".*_(\\d{9})_(.*hw\\d+)(-\\d+)?", "\\1_\\2", fls))
+  file.copy(fls, to, overwrite = TRUE)
+  file.remove(fls)
+}
+
+setwd(r"(D:\school\Teach\Stat102A\grading\hw1)")
+p <- "submissions.zip"
+create_student_folder_from_zip(p)
+
+n <- 10000
+test_data <- list(
+  get_decimal = data.frame(x = runif(n, 0, 10000)),
+  get_digit_after_dec = data.frame(x = runif(n, 0, 10000)),
+  get_digit_at_pos = dplyr::mutate(data.frame(x = runif(n, 0, 10000)),
+                                   pos = sample(c(-1,1),n, TRUE)*
+                                     as.integer(sapply(log10(x) + 1, sample, 1))),
+  cbrt = data.frame(x = rnorm(n, n, n)),
+  swap_first_last = Map(\(x)rnorm(x), sample(10, n, T)),
+  swap = Map(\(x)c(list(rnorm(x)),sample(x, 2, TRUE)), sample(10, n, T)))
+
+
+weights <- setNames(c(10, 12, 18, 5, 10, 10), names(test_data))
+
+not_to_use <- c("\\bfloor *\\(",
+               "\\bas.integer",
+               "\\btrunc *\\(",
+               "\\bceiling *\\(",
+               "while *\\(",
+               "for *\\(",
+               "repeat *\\{",
+               "if *\\(",
+               "\\belse ")
+
+opts_stats102A(check_for = list(get_decimal = not_to_use,
+                                get_digit_after_dec =  not_to_use,
+                                get_digit_at_pos = not_to_use))
+
+stats102A::grade_Rscripts("submissions/", "teacher_file.R",
+                    function_test_data = lapply(test_data, stats102A::convt2list),
+                    weight = weights,
+                    keep_par_names = TRUE)
+
+listRmd <- function(path){
+  a<- list.files(path, "Rmd$", full.names = TRUE, recursive = TRUE)|>
+    sapply(has_no_function)
+  data.frame(ID=sub("_.*", "", basename(names(a))), has_no_function = unname(a))
+}

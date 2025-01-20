@@ -5,7 +5,8 @@ teacher$opts_stats102A <- list(
   time_limit_compute = 0.5,
   max_space = 30,
   install_missing_packages = TRUE,
-  retain_installed_packages = TRUE
+  retain_installed_packages = TRUE,
+  check_for = list()
 )
 
 teacher$opts_stats102A_use <- teacher$opts_stats102A
@@ -63,8 +64,12 @@ fun_comp <- function(fun_name, stud_env) {
 
   stud_env$stud_fun <- get0(s_f_name, stud_env, "function", FALSE)
   teacher$teach_fun <- get0(fun_name, teacher, "function", FALSE)
+
+
   stopifnot(is.function(stud_env$stud_fun), is.function(teacher$teach_fun))
-  if (length(formalArgs(teacher$teach_fun)) != length(test_data[[1]])) {
+  .ln = if(is.list(test_data[[1]])) length(test_data[[1]]) else 1
+   cat(length(formalArgs(teacher$teach_fun)), .ln)
+  if (length(formalArgs(teacher$teach_fun)) != .ln) {
     stop("Incorrect number of arguments for the test data as compared to ",
          fun_name,
          " args")
@@ -100,6 +105,13 @@ fun_comp <- function(fun_name, stud_env) {
         toString(unique(val[is.na(ln)]))
       )
     }
+  }
+  not_to_have <- teacher$opts_stats102A_use[[c('check_for',fun_name)]]
+  cc <- sapply(not_to_have, grepl, deparse1(stud_env$stud_fun))
+  if(any(cc)) {
+    return(c(grade = 0,
+              remark = paste("Your function", fun_name, "uses",
+                             toString(gsub("\\W+|\\\\b", "", not_to_have[cc])))))
   }
   c(grade = fin_val, remark = remark)
 }
@@ -285,19 +297,15 @@ my_unzip <- function(zp) {
 }
 
 opts <- function(..., reset = FALSE) {
-  y <- as.list(match.call()[-1])
-  y$reset <- NULL
+  y <- list(...)
   nm <- setdiff(names(y), names(teacher$opts_stats102A_use))
-  if (length(nm)) {
-    stop("There are no options for ", toString(nm))
-  }
-  if (length(y) > 0) {
-    teacher$opts_stats102A_use <-
-      modifyList(teacher$opts_stats102A_use, y)
-  }
-  if (reset) {
-    teacher$opts_stats102A_use <- teacher$opts_stats102A
-  }
-  if (!length(y) & !reset)
-    teacher$opts_stats102A_use
+  if (length(nm)) stop("There are no options for ", toString(nm))
+  if (length(y) > 0)
+    teacher$opts_stats102A_use <- modifyList(teacher$opts_stats102A_use, y)
+  if (reset) teacher$opts_stats102A_use <- teacher$opts_stats102A
+  if (!length(y) & !reset) teacher$opts_stats102A_use
 }
+
+
+
+

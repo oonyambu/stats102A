@@ -1,0 +1,61 @@
+#1a
+get_decimal <- function(x){
+  x %% 1
+}
+
+
+#1b
+get_digit_after_dec <- function(x) {
+  (x %% 10^(0)) %/% 10^(-1)
+}
+
+#1c
+
+get_digit_at_pos <- function(x, pos) {
+  (x %% 10^(pos + 1) + 1e-10) %/% 10^(pos)
+}
+
+#Question 2
+
+cbrt <- function(x){
+  sign(x) * (abs(x) ^ (1/3))
+}
+
+
+#Question 3
+#a
+
+swap_first_last <- function(vec){
+  vec[c(1, length(vec))] <- vec[c(length(vec), 1)]
+  print(vec)
+}
+
+
+#b
+
+swap_two_vectors <- function(vec, pos1, pos2){
+  vec[c(pos1, pos2)] <- vec[c(pos2, pos1)]
+  print(vec)
+}
+
+
+#Question 4
+
+# max(a) #outputs the maximum value in vector a
+# min(a) #outputs  the minimum value in vector a
+# max(a, b) #outputs the maximum value with vector a and b
+# pmax(a, b) #outputs the pairwise maximum of the corresponding elements of a and b
+# pmin(a, b) #outputs the pairwise minimum of the corresponding elements of a and b
+# table(a) #outputs the unique frequency table of a
+# table(a, b) #outputs a contingency table showing a combination of element a and b
+# unique(a) #outputs elements in vector a but with duplicate elements removed
+# duplicated(a) #outputs a logical vector indicating the elements repeated in vector a
+# order(a) #return indices of vector a in sorted array
+# which(a == b) #outputs the indices where the element in a and b are equal to
+# which.max(b) #outputs the index with the maximum value in vector b
+# match(a, a) #return a vector of position of first matches and its first argument in the second
+# a %in% b #output logical vector on if the elements in a are in b
+# b %in% a #output logical vector on if the elements in b are in a
+# max.col(cbind(a, b)) #returns the column index of the maximum value in each row of the combined matrix of a and b
+# max.col(-cbind(a, b)) #returns the column index of the minimum value in each row of the combined matrix of a and b
+#

@@ -1,0 +1,73 @@
+---
+title: "005799926_stats102a_hw1"
+author: "Andy Engel"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+source("005799926_stats102a_hw1.R")
+```
+
+## Question 1
+# a.
+```{r}
+get_decimal(12.34)
+get_decimal(123.6123)
+get_decimal(213)
+```
+
+# b.
+```{r}
+get_digit_at_pos(612.34, pos = 2)
+get_digit_at_pos(612.34, pos = 1)
+get_digit_at_pos(612.34, pos = 0)
+get_digit_at_pos(612.34, pos = -1)
+get_digit_at_pos(612.34, pos = -2)
+get_digit_at_pos(612.34, pos = 4)
+```
+
+## Question 2
+```{r}
+cbrt(-8)
+cbrt(1)
+cbrt(27)
+```
+
+## Question 3
+# a.
+```{r}
+swap_first_last(c(12, 35, 9, 56, 24))
+swap_first_last(c(1, 2, 3))
+```
+
+# b.
+```{r}
+swap(c(23, 65, 19, 90), pos1 = 1, pos2 = 3)
+swap(c(1, 2, 3, 4, 5), pos1 = 2, pos2 = 5)
+```
+
+
+## Question 4
+```{r}
+a <- c(4, 8, 8, -4, 4, -4)
+b <- c(3, 4, 8, 5, 3, 5)
+max(a) # Returns the largest value in the vector
+min(a) # Returns the smallest value in the vector
+max(a, b) # Returns the largest value in 2 vectors
+pmax(a, b) # Compares each value of the two vectors and returns a vector of the larger values
+pmin(a, b) # Compares each value of the two vectors and returns a vector of the smaller values
+table(a) # Returns a table where the top row that contains unique values of the vector and the bottom row contains the number of times those values are in the vector
+table(a, b) # Returns a table where the top row contains the unique values of vector b and the leftmost column contains the unique values of vector a; the other rows/columns of the table show how often each value appears
+unique(a) # Returns a vector without duplicate values
+duplicated(a) # Returns a logical vector with duplicate values as TRUE and unique values as FALSE
+order(a) # Returns the position of the vectors in ascending order
+which(a == b) # Returns a vector of positions where the value of a equals the value of b
+which.max(b) # Returns the position where a vector's max is
+match(a, a) # Returns a vector of the positions of matches between two vectors
+a %in% b # Returns a logical vector where values in a that are in b are TRUE and values in a that are not in b are FALSE
+b %in% a # Returns a logical vector where values in b that are in a are TRUE and values in b that are not in a are FALSE
+max.col(cbind(a, b)) # Returns a vector with values 1 for a and 2 for b that compares each value of a and b and picks the largest (vector b wins ties)
+max.col(-cbind(a, b)) # Returns a vector with values 1 for a and 2 for b that compares each value of a and b and picks the smallest (vector b wins ties)
+```

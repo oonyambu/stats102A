@@ -1,0 +1,100 @@
+#Question 1a
+get_decimal <- function(x) {
+  x %% 1
+}
+
+get_decimal(12.34)
+get_decimal(123.6123)
+get_decimal(213)
+
+#Question 1b
+get_digit_after_dec <- function(x) {
+  decimal_part <- x %% 1
+  digit <- (decimal_part*10) %/% 1
+  digit
+}
+
+get_digit_after_dec(12.34)
+get_digit_after_dec(123.6123)
+get_digit_after_dec(213)
+get_digit_after_dec(0.1)
+get_digit_after_dec(0.2)
+get_digit_after_dec(0.3)
+
+#Question 1c
+get_digit_at_pos <- function (x, pos) {
+  shifted <- x/10^(pos)
+  digit <- shifted %% 10
+  digit - (digit %% 1)
+}
+
+get_digit_at_pos(612.34, pos = 2)
+get_digit_at_pos(612.34, pos = 1)
+get_digit_at_pos(612.34, pos = 0)
+get_digit_at_pos(612.34, pos = -1)
+get_digit_at_pos(612.34, pos = -2)
+get_digit_at_pos(612.34, pos = 4)
+
+#Question 2
+cbrt <- function (x) {
+  s <- 1
+  iterations <- 0
+  repeat{
+    s <- 0.5*(s + x/s/s)
+    if(abs(s * s*s -x) < 1e-8) break
+    iterations <- iterations +1
+  }
+  s
+}
+
+cbrt(-8)
+cbrt(1)
+cbrt(27)
+cbrt(125)
+cbrt(12)
+
+#Question 3a
+swap_first_last <- function(vec) {
+  last <- vec[1]
+  first <- vec[length(vec)]
+  vec[1] <- first
+  vec[length(vec)] <- last
+  vec
+}
+
+swap_first_last(c(12,35,9,56,24))
+swap_first_last(c(1,2,3))
+
+#Question 3b
+swap <- function(vec, pos1, pos2) {
+  new1 <- vec[pos2]
+  new2 <- vec[pos1]
+  vec[pos1] <- new1
+  vec[pos2] <- new2
+  vec
+}
+
+swap(vec = c(23, 65, 19, 90), pos1 = 1, pos2= 3)
+swap(vec = c(1, 2, 3, 4, 5), pos1 = 2, pos2 = 5)
+
+#Question 4
+a <- c(4, 8, 8, -4, 4, -4)
+b <- c(3, 4, 8, 5, 3, 5)
+
+max(a) # Find the maximum value of vector a
+min(a) # Find the minimum value of vector a
+max(a, b) # Find the maximum value between vector a and vector b
+pmax(a, b) # Find the pairwise maximum of vector a and vector b
+pmin(a, b) # Find the pairwise minimum of vector a and vector b
+table(a) # Counts the occurrences of each unique value in vector a
+table(a, b) # Creates a cross-tabulation table with values of vector a and vector b as keys and counts as the values.
+unique(a) # Find the unique values in vector a
+duplicated(a) # Returns indices of duplicated values in vector a
+order(a) # Returns the order of indices to sort vector a
+which(a == b) # Finds indices where elements of vector a are equal to vector b
+which.max(b) # Finds the index of the first maximum value in vector b
+match(a, a) # Finds the first index of each element of vector a in vector b
+a %in% b # Checks whether each element of vector a is in vector b
+b %in% a # Checks whether each element of vector b is in vector a
+max.col(cbind(a, b)) # Finds the column index with the maximum value for each row in the combined matrix created by binding vector a and vector b
+max.col(-cbind(a,b)) # Finds the column index with the minimum value for each row in the combined matrix created by binding vector a and vector b by negating the values

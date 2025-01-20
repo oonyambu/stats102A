@@ -1,0 +1,25 @@
+# Question 1
+get_decimal <- function(x) x %%1
+
+get_digit_after_dec <- function(x) (x*10) %/%1 %%10
+
+get_digit_at_pos <- function(x, pos) (x / 10^pos) %/%1 %% 10
+
+# Question 2
+cbrt <- function(x) sign(x) *abs(x)^(1/3)
+
+
+# Question 3
+swap_first_last <- function(vec) {
+  temp <- vec[1]
+  n <- length(vec)
+  vec[1] <- vec[n]
+  vec[n] <- temp
+  vec
+}
+
+swap <- function(vec, pos1, pos2){
+  vec[c(pos1, pos2)] <- vec[c(pos2, pos1)]
+  vec
+}
+
